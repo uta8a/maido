@@ -19,4 +19,4 @@ const getBookTitle = (basePath: string): string => {
   return data.title;
 };
 
-export default getBookTitle;
+export { getBookTitle };

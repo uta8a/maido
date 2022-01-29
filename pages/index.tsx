@@ -8,7 +8,7 @@ import fs from 'fs';
 import matter from 'gray-matter';
 import toml from 'toml';
 import { Article } from '../utils/types';
-import getBookTitle from '../utils/getMetadata';
+import { getBookTitle } from '../utils/getMetadata';
 
 type Props = {
   path: ArticleInfo[];
