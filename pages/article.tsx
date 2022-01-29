@@ -3,7 +3,7 @@ import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import React from 'react';
 
-const Home: NextPage = () => {
+const Article: NextPage = () => {
   return (
     <div className={styles.container}>
       <Head>
@@ -11,10 +11,10 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <p>TopPage</p>
+        <p>Article</p>
       </main>
     </div>
   );
 };
 
-export default Home;
+export default Article;
