@@ -8,10 +8,11 @@ import fs from 'fs';
 import matter from 'gray-matter';
 import toml from 'toml';
 import { Article } from '../utils/types';
-import { getBookTitle } from '../utils/getMetadata';
+import { getProjectTitle } from '../utils/getMetadata';
 
 type Props = {
   path: ArticleInfo[];
+  projectTitle: string;
 };
 
 type ArticleInfo = {
@@ -20,11 +21,11 @@ type ArticleInfo = {
   date: Date;
 };
 
-const Home: NextPage = () => {
+const Home: NextPage<Props> = (props: Props) => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>props.projectTitle</title>
       </Head>
 
       <main className={styles.main}>
@@ -51,9 +52,11 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   });
   console.log(file);
 
-  // get metadata from book_settings.toml
-  const bookTitle = getBookTitle(process.cwd());
+  // get metadata from project_settings.toml
+  const projectTitle = getProjectTitle(process.cwd());
 
+  // get project name from dir/index.md or dirname
+  // const
   const a =
     params !== undefined
       ? typeof params.article === 'string'
@@ -73,7 +76,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   paths.sort((a, b) => {
     return new Date(a.date) < new Date(b.date) ? 1 : -1;
   });
-  return { props: { path: paths } };
+  return { props: { path: paths, projectTitle: projectTitle } };
 };
 
 const getArticleBySlug = (article: string, slug: string): Article => {
