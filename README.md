@@ -1,4 +1,5 @@
-## web-template
+## maido / easy SSG using Next.js
+
 ```
 eslint
 prettier
