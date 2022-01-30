@@ -41,6 +41,7 @@
     "gray-matter": "^4.0.3",
     "husky": "^7.0.1",
     "jest": "^27.4.7",
+    "linkedom": "^0.13.2",
     "lint-staged": "^11.0.0",
     "markdown-it": "^12.3.2",
     "prettier": "^2.3.2",

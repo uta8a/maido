@@ -9,6 +9,7 @@ test('listing articles', () => {
   return getArticleList(
     path.join(process.cwd(), 'content', 'testz-index-toc'),
   ).then((data) => {
-    expect(data).toBe('hoge');
+    expect(data).toContain('"/testz-index-toc/test-article/"');
+    expect(data).toContain('"/testz-index-toc/"');
   });
 });
