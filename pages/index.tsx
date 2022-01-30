@@ -3,14 +3,9 @@ import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import React from 'react';
 import { GetStaticProps } from 'next';
-import path from 'path';
-import fs from 'fs';
-import matter from 'gray-matter';
-import toml from 'toml';
-import { Article } from '../utils/types';
 import { getProjectTitle } from '../utils/getMetadata';
 import { getBooks } from '../utils/getBooks';
-import { Book, StringBook } from '../utils/types';
+import { StringBook } from '../utils/types';
 
 type Props = {
   books: StringBook[];
