@@ -17,7 +17,7 @@ const getBooks = (basePath: string): Book[] => {
         },
       ];
     }
-    bookFullPaths = data.map((path) => bookRootPath + path);
+    bookFullPaths = data.map((path) => bookRootPath + path); // add prefix
   });
 
   return [
