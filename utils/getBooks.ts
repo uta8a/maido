@@ -22,7 +22,7 @@ const getBooks = (basePath: string): Promise<Book[]> => {
     if (bookFullPaths.length === 0) {
       return defaultBookList;
     }
-    // functionを用いて、type Bookを返す→Promise<Book[]>が返り値になるのでこちらでawaitで取り出す
+    // TODO functionを用いて、type Bookを返す→Promise<Book[]>が返り値になるのでPromiseを返す
     return defaultBookList;
   });
 
