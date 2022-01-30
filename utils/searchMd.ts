@@ -1,9 +1,5 @@
-import { Book, Index, Toc, IndexRaw } from './types';
-import { documentRoot, bookToc } from './constants';
 import path from 'path';
 import fs from 'fs';
-import matter from 'gray-matter';
-import toml from 'toml';
 
 const searchMd = async (rootPath: string): Promise<string[]> => {
   const mdDirPaths: string[] = [];
@@ -11,8 +7,8 @@ const searchMd = async (rootPath: string): Promise<string[]> => {
     const dirents = await fs.readdirSync(rootPath, { withFileTypes: true });
     for (const dirent of dirents) {
       if (dirent.isDirectory()) {
-        const mds = await searchMd(dirent.name);
-        mdDirPaths.concat(mds);
+        const mds = await searchMd(path.join(rootPath, dirent.name));
+        mdDirPaths.push(...mds);
       } else {
         if (checkMd(dirent.name)) {
           mdDirPaths.push(dirent.name);
@@ -20,7 +16,7 @@ const searchMd = async (rootPath: string): Promise<string[]> => {
       }
     }
   } catch {
-    return [];
+    // ignore error
   }
   return mdDirPaths;
 };

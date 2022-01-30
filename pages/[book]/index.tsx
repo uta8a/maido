@@ -2,16 +2,13 @@ import { GetStaticPaths, NextPage, GetStaticProps } from 'next';
 import Head from 'next/head';
 import styles from '../../styles/Home.module.css';
 import React from 'react';
-import { getProjectTitle } from '../../utils/getMetadata';
-import { getBooks, walkDir } from '../../utils/getBooks';
 import { IndexRaw } from '../../utils/types';
-import { useRouter } from 'next/router';
 import path from 'path';
 import { documentRoot } from '../../utils/constants';
 import { getArticleList } from '../../utils/getArticleList';
 import { makeArticleToc } from '../../utils/makeArticleToc';
 import { makeArticleContent } from '../../utils/makeArticleContent';
-
+import { walkDir } from '../../utils/getBooks';
 type Props = {
   meta: IndexRaw;
   list: string;
@@ -20,8 +17,6 @@ type Props = {
 };
 
 const ArticlePage: NextPage<Props> = (props: Props) => {
-  const router = useRouter();
-  const { book } = router.query;
   return (
     <div className={styles.container}>
       <Head>
@@ -55,7 +50,7 @@ const ArticlePage: NextPage<Props> = (props: Props) => {
 export const getStaticPaths: GetStaticPaths = async () => {
   const rootPath = path.join(process.cwd(), documentRoot); // 'content'
   let paths;
-  const rawPaths = await searchMd(rootPath);
+  const rawPaths = await walkDir(rootPath);
   if (rawPaths instanceof Error) {
     paths = ['/'];
     return { paths, fallback: false };
