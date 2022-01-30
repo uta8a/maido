@@ -1,16 +1,18 @@
-import { getBooks, walkDir } from '../../utils/getBooks';
+import { getBooks, walkDir, checkFileExists } from '../../utils/getBooks';
 import { Book } from '../../utils/types';
 import path from 'path';
 
 test('get book (title, image_path, date)', () => {
   const books: Book[] = [
     {
-      title: 'My Book 1',
+      title: 'There is no book',
       image_path: 'public/favicon.png',
-      date: new Date(Date.parse('2022-01-18T05:28:15+09:00')),
+      date: new Date(Date.parse('2022-01-01T00:00:00+09:00')),
     },
   ];
-  expect(getBooks(process.cwd())).toStrictEqual(books); // TODO async系になるので書き換え
+  return getBooks(process.cwd()).then((data) => {
+    expect(data).toStrictEqual(books);
+  });
 });
 
 test('listing "content/" directory', () => {
@@ -27,4 +29,22 @@ test(`listing directory which doesn't exist`, () => {
     // Errorの特定まではしてない
     expect(`${data}`).toMatch('Error');
   });
+});
+
+test('check file exists when it is file', () => {
+  expect(
+    checkFileExists(
+      path.join(process.cwd(), 'content', 'project_settings.toml'),
+    ),
+  ).toEqual(true);
+});
+
+test('check file exists when it is directory', () => {
+  expect(checkFileExists(path.join(process.cwd(), 'content'))).toEqual(false);
+});
+
+test(`check file exists when it isn't file nor directory`, () => {
+  expect(checkFileExists(path.join(process.cwd(), 'no_directory'))).toEqual(
+    false,
+  );
 });

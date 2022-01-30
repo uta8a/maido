@@ -23,6 +23,9 @@ const getBooks = (basePath: string): Promise<Book[]> => {
       return defaultBookList;
     }
     // TODO functionを用いて、type Bookを返す→Promise<Book[]>が返り値になるのでPromiseを返す
+    // getBooksがあるので、曖昧さを避けてgetBookはやめてgetBookMetadataにした
+    // TODO getBookMetadata と bookList と getBooks, もっといい命名できそう。
+    const bookList = getBookMetadata(bookFullPaths);
     return defaultBookList;
   });
 
@@ -42,4 +45,22 @@ const walkDir = async (rootPath: string): Promise<string[] | Error> => {
   return bookDirPaths;
 };
 
-export { getBooks, walkDir };
+const getBookMetadata = async (bookPaths: string[]): Promise<Book[]> => {
+  // bookPaths.length >= 1
+
+  // Check existance of `book-dir/index.md` is not directory
+  return new Promise((res, rej) => res(defaultBookList));
+};
+
+const checkFileExists = (filepath: string): boolean => {
+  try {
+    const stat = fs.statSync(filepath);
+    if (stat.isDirectory()) {
+      return false;
+    }
+    return true;
+  } catch {
+    return false;
+  }
+};
+export { getBooks, walkDir, checkFileExists };
