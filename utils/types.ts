@@ -30,3 +30,11 @@ export type Index = {
 export type Toc = {
   image_path: string;
 };
+
+export type IndexRaw = {
+  title: string;
+  date: string;
+};
+
+// 部分型
+export type IndexPartial = { [P in 'title' | 'date']: Index[P] };

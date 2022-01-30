@@ -1,4 +1,4 @@
-import { Book, Index, Toc } from './types';
+import { Book, Index, Toc, IndexRaw, IndexPartial } from './types';
 import { documentRoot } from './constants';
 import path from 'path';
 import fs from 'fs';
@@ -6,13 +6,14 @@ import matter from 'gray-matter';
 import toml from 'toml';
 
 const defaultImagePath = 'public/favicon.png';
+const defaultDate = new Date(Date.parse('2022-01-01T00:00:00+09:00'));
 const bookIndex = 'index.md';
 const bookToc = 'toc.md';
 const defaultBookList: Book[] = [
   {
     title: 'There is no book',
     image_path: 'public/favicon.png',
-    date: new Date(Date.parse('2022-01-01T00:00:00+09:00')),
+    date: defaultDate,
   },
 ];
 
@@ -23,7 +24,9 @@ const getBooks = (basePath: string): Promise<Book[]> => {
     if (data instanceof Error) {
       return defaultBookList;
     }
-    const bookFullPaths = data.map((path) => bookRootPath + path); // add prefix
+    const bookFullPaths = data.map((bookFullPath) =>
+      path.join(bookRootPath, bookFullPath),
+    ); // add prefix
     if (bookFullPaths.length === 0) {
       return defaultBookList;
     }
@@ -31,7 +34,7 @@ const getBooks = (basePath: string): Promise<Book[]> => {
     // getBooksがあるので、曖昧さを避けてgetBookはやめてgetBookMetadataにした
     // TODO getBookMetadata と bookList と getBooks, もっといい命名できそう。
     const bookList = getBookList(bookFullPaths);
-    return defaultBookList;
+    return bookList;
   });
 
   return bookList;
@@ -52,23 +55,30 @@ const walkDir = async (rootPath: string): Promise<string[] | Error> => {
 
 const getBookList = async (bookPaths: string[]): Promise<Book[]> => {
   // bookPaths.length >= 1
-
+  const bookList: Book[] = [];
+  bookPaths.forEach(async (bookPath) => {
+    const bookMetadata = await getBookMetadata(bookPath);
+    bookList.push(bookMetadata);
+  });
   // Check existence of `book-dir/index.md` is not directory
-  return new Promise((res, rej) => res(defaultBookList));
+  return bookList;
 };
 
 const getBookMetadata = async (bookPath: string): Promise<Book> => {
   const indexPath = path.join(bookPath, bookIndex);
   const tocPath = path.join(bookPath, bookToc);
   let title = path.basename(bookPath);
+  let date = defaultDate;
   let image_path = defaultImagePath;
   if (checkFileExists(indexPath)) {
-    title = await getBookTitle(title, indexPath);
+    const data = await getBookData(title, indexPath);
+    title = data.title;
+    date = data.date;
   }
   if (checkFileExists(tocPath)) {
     image_path = await getImagePath(tocPath);
   }
-  return defaultBookList[0];
+  return { title, date, image_path };
 };
 
 // Check file existence
@@ -87,22 +97,22 @@ const checkFileExists = (filepath: string): boolean => {
   }
 };
 
-const getBookTitle = async (
+const getBookData = async (
   defaultBookTitle: string,
   indexPath: string,
-): Promise<string> => {
+): Promise<IndexPartial> => {
   let fileRaw;
   try {
     fileRaw = fs.readFileSync(indexPath, 'utf-8');
   } catch {
-    return defaultBookTitle;
+    return { title: defaultBookTitle, date: defaultDate };
   }
-  const metadata = getIndexMetadata(fileRaw);
-  return metadata.title;
+  const data = getIndexMetadata(fileRaw);
+  return { title: data.title, date: new Date(Date.parse(data.date)) };
 };
 
 // str === index.md's content
-const getIndexMetadata = (str: string): Index => {
+const getIndexMetadata = (str: string): IndexRaw => {
   const rawData = matter(str, {
     engines: {
       toml: toml.parse.bind(toml),
@@ -110,7 +120,11 @@ const getIndexMetadata = (str: string): Index => {
     language: 'toml',
     delimiters: '+++',
   });
-  return rawData.data as Index;
+  const data = {
+    title: rawData.data.title,
+    date: rawData.data.date,
+  };
+  return data;
 };
 
 const getImagePath = async (tocPath: string): Promise<string> => {
@@ -140,7 +154,7 @@ export {
   getBooks,
   walkDir,
   checkFileExists,
-  getBookTitle,
+  getBookData,
   getIndexMetadata,
   getImagePath,
   getTocMetadata,

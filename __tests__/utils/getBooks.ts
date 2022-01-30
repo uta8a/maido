@@ -2,7 +2,7 @@ import {
   getBooks,
   walkDir,
   checkFileExists,
-  getBookTitle,
+  getBookData,
   getIndexMetadata,
   getImagePath,
   getTocMetadata,
@@ -14,13 +14,37 @@ import path from 'path';
 test('get book (title, image_path, date)', () => {
   const books: Book[] = [
     {
+      title: 'testz',
+      image_path: 'public/favicon.png',
+      date: new Date(Date.parse('2022-01-01T00:00:00+09:00')),
+    },
+    {
+      title: 'My Super Book',
+      image_path: 'public/favicon.png',
+      date: new Date(Date.parse('2022-01-18T05:28:15+09:00')),
+    },
+    {
+      title: 'With Toc TechNote',
+      image_path: './thumbnail.png',
+      date: new Date(Date.parse('2022-01-18T05:28:15+09:00')),
+    },
+  ];
+  return getBooks(process.cwd()).then((data) => {
+    expect(data).toEqual(books);
+  });
+});
+
+test(`get book which isn't exist`, () => {
+  const books: Book[] = [
+    {
       title: 'There is no book',
       image_path: 'public/favicon.png',
       date: new Date(Date.parse('2022-01-01T00:00:00+09:00')),
     },
   ];
-  return getBooks(process.cwd()).then((data) => {
-    expect(data).toStrictEqual(books);
+  const notExistPath = path.join(process.cwd(), 'no_directory');
+  return getBooks(notExistPath).then((data) => {
+    expect(data).toEqual(books);
   });
 });
 
@@ -61,8 +85,8 @@ test(`check file exists when it isn't file nor directory`, () => {
 test(`book-dir/index.md doesn't exists`, () => {
   const defaultBookTitle = 'There is no book';
   const indexPath = path.join(process.cwd(), 'content', 'testz', 'index.md');
-  return getBookTitle(defaultBookTitle, indexPath).then((data) => {
-    expect(data).toEqual('There is no book');
+  return getBookData(defaultBookTitle, indexPath).then((data) => {
+    expect(data.title).toEqual('There is no book');
   });
 });
 
@@ -74,8 +98,8 @@ test(`book-dir/index.md exists`, () => {
     'testz-index',
     'index.md',
   );
-  return getBookTitle(defaultBookTitle, indexPath).then((data) => {
-    expect(data).toEqual('My Super Book');
+  return getBookData(defaultBookTitle, indexPath).then((data) => {
+    expect(data.title).toEqual('My Super Book');
   });
 });
 
