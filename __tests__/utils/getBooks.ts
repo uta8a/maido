@@ -15,11 +15,9 @@ test('get book (title, image_path, date)', () => {
 
 test('listing "content/" directory', () => {
   const bookRootPath = path.join(process.cwd(), 'content');
-  expect(walkDir(bookRootPath)).toBe([
-    'testz',
-    'testz-index',
-    'testz-index-toc',
-  ]);
+  return walkDir(bookRootPath).then((data) => {
+    expect(data).toBe(['testz', 'testz-index', 'testz-index-toc']);
+  });
 });
 
 test(`listing directory which doesn't exist`, () => {

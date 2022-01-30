@@ -26,11 +26,16 @@ const getBooks = (basePath: string): Book[] => {
   ];
 };
 
-const walkDir = async (rootPath: string): string[] => {
-  const bookDirPaths: string[] = await fs
-    .readdirSync(rootPath, { withFileTypes: true })
-    .filter((dirent) => dirent.isDirectory())
-    .map((dirent) => dirent.name);
+const walkDir = async (rootPath: string): Promise<string[] | Error> => {
+  let bookDirPaths: string[];
+  try {
+    bookDirPaths = await fs
+      .readdirSync(rootPath, { withFileTypes: true })
+      .filter((dirent) => dirent.isDirectory())
+      .map((dirent) => path.join(rootPath, dirent.name));
+  } catch (err) {
+    return Error(`Cannot read ${rootPath} :  ${err}`);
+  }
   return bookDirPaths;
 };
 
