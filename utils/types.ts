@@ -19,6 +19,7 @@ export type Book = {
   title: string;
   image_path: string;
   date: Date;
+  book_path: string;
 };
 
 export type Index = {
@@ -43,4 +44,5 @@ export type StringBook = {
   title: string;
   image_path: string;
   date: string; // toISOString
+  book_path: string;
 };

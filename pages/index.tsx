@@ -29,6 +29,7 @@ const Home: NextPage<Props> = (props: Props) => {
                 date.getMonth() + 1
               } / ${date.getDay()}`}</p>
               <p>{book.image_path}</p>
+              <p>{book.book_path}</p>
             </div>
           );
         })}
@@ -48,6 +49,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
       title: book.title,
       date: book.date.toISOString(),
       image_path: book.image_path,
+      book_path: book.book_path,
     };
   });
   return { props: { books: books, projectTitle: projectTitle } };

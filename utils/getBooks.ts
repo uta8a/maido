@@ -14,6 +14,7 @@ const defaultBookList: Book[] = [
     title: 'There is no book',
     image_path: 'public/favicon.png',
     date: defaultDate,
+    book_path: '/',
   },
 ];
 
@@ -65,6 +66,7 @@ const getBookMetadata = async (bookPath: string): Promise<Book> => {
   let title = path.basename(bookPath);
   let date = defaultDate;
   let image_path = defaultImagePath;
+  const book_path = path.basename(bookPath);
   if (checkFileExists(indexPath)) {
     const data = await getBookData(title, indexPath);
     title = data.title;
@@ -73,7 +75,7 @@ const getBookMetadata = async (bookPath: string): Promise<Book> => {
   if (checkFileExists(tocPath)) {
     image_path = await getImagePath(tocPath);
   }
-  return { title, date, image_path };
+  return { title, date, image_path, book_path };
 };
 
 // Check file existence

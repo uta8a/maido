@@ -17,16 +17,19 @@ test('get book (title, image_path, date)', () => {
       title: 'testz',
       image_path: 'public/favicon.png',
       date: new Date(Date.parse('2022-01-01T00:00:00+09:00')),
+      book_path: 'testz',
     },
     {
       title: 'My Super Book',
       image_path: 'public/favicon.png',
       date: new Date(Date.parse('2022-01-18T05:28:15+09:00')),
+      book_path: 'testz-index',
     },
     {
       title: 'With Toc TechNote',
       image_path: './thumbnail.png',
       date: new Date(Date.parse('2022-01-18T05:28:15+09:00')),
+      book_path: 'testz-index-toc',
     },
   ];
   return getBooks(process.cwd()).then((data) => {
@@ -40,6 +43,7 @@ test(`get book which isn't exist`, () => {
       title: 'There is no book',
       image_path: 'public/favicon.png',
       date: new Date(Date.parse('2022-01-01T00:00:00+09:00')),
+      book_path: '/',
     },
   ];
   const notExistPath = path.join(process.cwd(), 'no_directory');
