@@ -33,6 +33,13 @@ test('get book (title, image_path, date)', () => {
       book_path: 'testz-index-toc',
       draft: false,
     },
+    {
+      title: 'Nest TechNote',
+      image_path: './thumbnail-nest.png',
+      date: new Date(Date.parse('2022-01-18T05:28:15+09:00')),
+      book_path: 'testz-index-toc-nest',
+      draft: false,
+    },
   ];
   return getBooks(process.cwd()).then((data) => {
     expect(data).toEqual(books);
@@ -63,6 +70,7 @@ test('listing "content/" directory', () => {
       'testz-index',
       'testz-index-toc',
       'testz-index-toc-ignored',
+      'testz-index-toc-nest',
     ]);
   });
 });
