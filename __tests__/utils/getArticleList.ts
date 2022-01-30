@@ -1,8 +1,4 @@
-import {
-  getArticleList,
-  getTocMd,
-  getTocContent,
-} from '../../utils/getArticleList';
+import { getArticleList } from '../../utils/getArticleList';
 import path from 'path';
 
 test('listing articles', () => {
