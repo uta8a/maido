@@ -6,7 +6,6 @@ import {
   getIndexMetadata,
   getImagePath,
   getTocMetadata,
-  defaultImagePath,
 } from '../../utils/getBooks';
 import { Book } from '../../utils/types';
 import path from 'path';

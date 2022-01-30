@@ -23,7 +23,7 @@ const Home: NextPage<Props> = (props: Props) => {
         {props.books.map((book) => {
           const date = new Date(Date.parse(book.date));
           return (
-            <div>
+            <div key={book.title}>
               <p>{book.title}</p>
               <p>{`${date.getFullYear()} / ${
                 date.getMonth() + 1
@@ -38,7 +38,7 @@ const Home: NextPage<Props> = (props: Props) => {
   );
 };
 
-export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
+export const getStaticProps: GetStaticProps<Props> = async () => {
   // get metadata from project_settings.toml
   const projectTitle = getProjectTitle(process.cwd());
 

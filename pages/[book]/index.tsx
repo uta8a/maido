@@ -27,7 +27,7 @@ const BookPage: NextPage<Props> = (props: Props) => {
         {props.books.map((book) => {
           const date = new Date(Date.parse(book.date));
           return (
-            <div>
+            <div key={book.title}>
               <p>{book.title}</p>
               <p>{`${date.getFullYear()} / ${
                 date.getMonth() + 1
@@ -45,7 +45,7 @@ const BookPage: NextPage<Props> = (props: Props) => {
 export const getStaticPaths: GetStaticPaths = async () => {
   const rootPath = path.join(process.cwd(), documentRoot); // 'content'
   let paths;
-  let rawPaths = await walkDir(rootPath);
+  const rawPaths = await walkDir(rootPath);
   if (rawPaths instanceof Error) {
     paths = ['/'];
     return { paths, fallback: false };
