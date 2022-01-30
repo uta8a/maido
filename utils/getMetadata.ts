@@ -12,7 +12,7 @@ const getProjectTitle = (basePath: string): string => {
   let fileRaw;
   try {
     fileRaw = fs.readFileSync(fullPath, 'utf8');
-  } catch (e) {
+  } catch {
     return defaultProjectTitle;
   }
   const data = toml.parse(fileRaw); // TODO: ここtypeつけたい
