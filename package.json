@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "eslint --ignore-path .gitignore **/*.ts **/*.tsx",
     "test": "jest",
-    "format": "prettier --write **/*.css **/*.js **/*.json **/*.ts **/*.tsx"
+    "format": "prettier --write {**/,**/**/}*.{css,js,json,ts,tsx}"
   },
   "husky": {
     "hooks": {
