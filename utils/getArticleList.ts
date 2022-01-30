@@ -1,5 +1,4 @@
-import { Book, Index, Toc, IndexRaw } from './types';
-import { documentRoot, bookToc } from './constants';
+import { bookToc } from './constants';
 import path from 'path';
 import fs from 'fs';
 import matter from 'gray-matter';

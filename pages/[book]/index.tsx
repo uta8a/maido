@@ -8,6 +8,7 @@ import { StringBook } from '../../utils/types';
 import { useRouter } from 'next/router';
 import path from 'path';
 import { documentRoot } from '../../utils/constants';
+import { getArticleList } from '../../utils/getArticleList';
 
 type Props = {
   books: StringBook[];
@@ -65,7 +66,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
         : ''
       : '';
   // articlelistの生成(toc.md): Htmlを返す
-  // const rawArticleList = getArticleList(bookPath);
+  const articleList = getArticleList(bookPath);
 
   // articleのtoc生成: Htmlを返す
   // const articleToc = makeArticleToc(bookPath);
