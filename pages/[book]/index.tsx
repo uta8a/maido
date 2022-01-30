@@ -19,7 +19,7 @@ type Props = {
   toc: string;
 };
 
-const BookPage: NextPage<Props> = (props: Props) => {
+const ArticlePage: NextPage<Props> = (props: Props) => {
   const router = useRouter();
   const { book } = router.query;
   return (
@@ -55,7 +55,7 @@ const BookPage: NextPage<Props> = (props: Props) => {
 export const getStaticPaths: GetStaticPaths = async () => {
   const rootPath = path.join(process.cwd(), documentRoot); // 'content'
   let paths;
-  const rawPaths = await walkDir(rootPath);
+  const rawPaths = await searchMd(rootPath);
   if (rawPaths instanceof Error) {
     paths = ['/'];
     return { paths, fallback: false };
@@ -103,4 +103,4 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   };
 };
 
-export default BookPage;
+export default ArticlePage;
