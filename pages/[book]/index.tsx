@@ -4,16 +4,19 @@ import styles from '../../styles/Home.module.css';
 import React from 'react';
 import { getProjectTitle } from '../../utils/getMetadata';
 import { getBooks, walkDir } from '../../utils/getBooks';
-import { StringBook } from '../../utils/types';
+import { IndexRaw } from '../../utils/types';
 import { useRouter } from 'next/router';
 import path from 'path';
 import { documentRoot } from '../../utils/constants';
 import { getArticleList } from '../../utils/getArticleList';
 import { makeArticleToc } from '../../utils/makeArticleToc';
+import { makeArticleContent } from '../../utils/makeArticleContent';
 
 type Props = {
-  books: StringBook[];
-  projectTitle: string;
+  meta: IndexRaw;
+  list: string;
+  content: string;
+  toc: string;
 };
 
 const BookPage: NextPage<Props> = (props: Props) => {
@@ -22,23 +25,28 @@ const BookPage: NextPage<Props> = (props: Props) => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>{props.projectTitle}</title>
+        <title>{props.meta.title}</title>
       </Head>
 
       <main className={styles.main}>
-        {props.books.map((book) => {
-          const date = new Date(Date.parse(book.date));
-          return (
-            <div key={book.title}>
-              <p>{book.title}</p>
-              <p>{`${date.getFullYear()} / ${
-                date.getMonth() + 1
-              } / ${date.getDay()}`}</p>
-              <p>{book.image_path}</p>
-              <p>{book.book_path}</p>
-            </div>
-          );
-        })}
+        <div
+          className="maido-list"
+          dangerouslySetInnerHTML={{
+            __html: props.list || 'No list.',
+          }}
+        />
+        <div
+          className="maido-content"
+          dangerouslySetInnerHTML={{
+            __html: props.content || 'No content.',
+          }}
+        />
+        <div
+          className="maido-toc"
+          dangerouslySetInnerHTML={{
+            __html: props.toc || 'No toc.',
+          }}
+        />
       </main>
     </div>
   );
@@ -60,36 +68,39 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
-  const bookPath =
+  const bookBasePath =
     params !== undefined
       ? typeof params.book === 'string'
         ? params.book
         : ''
       : '';
+  const bookPath = path.join(process.cwd(), 'content', bookBasePath);
+  const articleName = 'index.md';
   // articlelistの生成(toc.md): Htmlを返す
   const articleList = await getArticleList(bookPath);
 
   // articleのtoc生成: Htmlを返す
-  const articleToc = await makeArticleToc(path.join(bookPath, 'index.md'));
+  const articleToc = await makeArticleToc(path.join(bookPath, articleName));
 
   // 内容の生成: Htmlを返す
   // この時点でbookのrootはdraft = falseと仮定して良い(getBooks.tsで弾いている)
-  // const articleContent = makeArticleContent(path.join(bookPath, 'index.md'));
+  const articleContent = await makeArticleContent(
+    path.join(bookPath, articleName),
+  );
 
-  // get metadata from project_settings.toml
-  const projectTitle = getProjectTitle(process.cwd());
+  const listHtml = articleList;
+  const metadata = articleContent[0];
+  const contentHtml = articleContent[1];
+  const tocHtml = articleToc[1];
 
-  // get book data (title, date, image_path) from dir/index.md or dirname
-  const rawBooks = await getBooks(process.cwd());
-  const books = rawBooks.map((book) => {
-    return {
-      title: book.title,
-      date: book.date.toISOString(),
-      image_path: book.image_path,
-      book_path: book.book_path,
-    };
-  });
-  return { props: { books: books, projectTitle: projectTitle } };
+  return {
+    props: {
+      meta: metadata,
+      list: listHtml,
+      content: contentHtml,
+      toc: tocHtml,
+    },
+  };
 };
 
 export default BookPage;
