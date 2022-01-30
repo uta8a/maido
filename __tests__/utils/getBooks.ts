@@ -1,4 +1,10 @@
-import { getBooks, walkDir, checkFileExists } from '../../utils/getBooks';
+import {
+  getBooks,
+  walkDir,
+  checkFileExists,
+  getBookTitle,
+  getIndexMetadata,
+} from '../../utils/getBooks';
 import { Book } from '../../utils/types';
 import path from 'path';
 
@@ -47,4 +53,38 @@ test(`check file exists when it isn't file nor directory`, () => {
   expect(checkFileExists(path.join(process.cwd(), 'no_directory'))).toEqual(
     false,
   );
+});
+
+test(`book-dir/index.md doesn't exists`, () => {
+  const defaultBookTitle = 'There is no book';
+  const indexPath = path.join(process.cwd(), 'content', 'testz', 'index.md');
+  return getBookTitle(defaultBookTitle, indexPath).then((data) => {
+    expect(data).toEqual('There is no book');
+  });
+});
+
+test(`book-dir/index.md exists`, () => {
+  const defaultBookTitle = 'There is no book';
+  const indexPath = path.join(
+    process.cwd(),
+    'content',
+    'testz-index',
+    'index.md',
+  );
+  return getBookTitle(defaultBookTitle, indexPath).then((data) => {
+    expect(data).toEqual('My Super Book');
+  });
+});
+
+test('frontmatter', () => {
+  const str = `+++
+title = "index.md"
+date = "2022-01-18T05:28:15+09:00"
+draft = false
++++
+
+# index.md
+
+Hello`;
+  expect(getIndexMetadata(str).title).toEqual('index.md');
 });

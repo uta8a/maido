@@ -10,11 +10,23 @@ export type Article = {
   draft?: boolean;
   date: Date;
 };
+
 export type Props = {
   article: Article;
 };
+
 export type Book = {
   title: string;
   image_path: string;
   date: Date;
+};
+
+export type Index = {
+  title: string;
+  date: Date;
+  draft: boolean;
+};
+
+export type Toc = {
+  image_path: string;
 };

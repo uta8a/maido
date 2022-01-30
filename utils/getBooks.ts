@@ -1,8 +1,12 @@
-import { Book } from './types';
+import { Book, Index, Toc } from './types';
 import { documentRoot } from './constants';
 import path from 'path';
 import fs from 'fs';
+import matter from 'gray-matter';
+import toml from 'toml';
 
+const bookIndex = 'index.md';
+const bookToc = 'toc.md';
 const defaultBookList: Book[] = [
   {
     title: 'There is no book',
@@ -25,7 +29,7 @@ const getBooks = (basePath: string): Promise<Book[]> => {
     // TODO functionを用いて、type Bookを返す→Promise<Book[]>が返り値になるのでPromiseを返す
     // getBooksがあるので、曖昧さを避けてgetBookはやめてgetBookMetadataにした
     // TODO getBookMetadata と bookList と getBooks, もっといい命名できそう。
-    const bookList = getBookMetadata(bookFullPaths);
+    const bookList = getBookList(bookFullPaths);
     return defaultBookList;
   });
 
@@ -45,11 +49,24 @@ const walkDir = async (rootPath: string): Promise<string[] | Error> => {
   return bookDirPaths;
 };
 
-const getBookMetadata = async (bookPaths: string[]): Promise<Book[]> => {
+const getBookList = async (bookPaths: string[]): Promise<Book[]> => {
   // bookPaths.length >= 1
 
   // Check existence of `book-dir/index.md` is not directory
   return new Promise((res, rej) => res(defaultBookList));
+};
+
+const getBookMetadata = async (bookPath: string): Promise<Book> => {
+  const indexPath = path.join(bookPath, bookIndex);
+  const tocPath = path.join(bookPath, bookToc);
+  let title = path.basename(bookPath);
+  let image_path = 'public/favicon.png';
+  if (checkFileExists(indexPath)) {
+    title = await getBookTitle(title, indexPath);
+  }
+  if (checkFileExists(tocPath)) {
+  }
+  return defaultBookList[0];
 };
 
 // Check file existence
@@ -67,4 +84,31 @@ const checkFileExists = (filepath: string): boolean => {
     return false;
   }
 };
-export { getBooks, walkDir, checkFileExists };
+
+const getBookTitle = async (
+  defaultBookTitle: string,
+  indexPath: string,
+): Promise<string> => {
+  let fileRaw;
+  try {
+    fileRaw = fs.readFileSync(indexPath, 'utf-8');
+  } catch {
+    return defaultBookTitle;
+  }
+  const metadata = getIndexMetadata(fileRaw);
+  return metadata.title;
+};
+
+// str === index.md's content
+const getIndexMetadata = (str: string): Index => {
+  const rawData = matter(str, {
+    engines: {
+      toml: toml.parse.bind(toml),
+    },
+    language: 'toml',
+    delimiters: '+++',
+  });
+  return rawData.data as Index;
+};
+
+export { getBooks, walkDir, checkFileExists, getBookTitle, getIndexMetadata };
