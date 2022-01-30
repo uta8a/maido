@@ -48,10 +48,14 @@ const walkDir = async (rootPath: string): Promise<string[] | Error> => {
 const getBookMetadata = async (bookPaths: string[]): Promise<Book[]> => {
   // bookPaths.length >= 1
 
-  // Check existance of `book-dir/index.md` is not directory
+  // Check existence of `book-dir/index.md` is not directory
   return new Promise((res, rej) => res(defaultBookList));
 };
 
+// Check file existence
+// file not found -> false
+// directory -> false
+// else -> true
 const checkFileExists = (filepath: string): boolean => {
   try {
     const stat = fs.statSync(filepath);
