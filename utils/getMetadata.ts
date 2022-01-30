@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import toml from 'toml';
-import { documentRoot } from './constant';
+import { documentRoot } from './constants';
 
 const settingFilename: string = 'project_settings.toml';
 const defaultProjectTitle: string = 'My TechBlog';

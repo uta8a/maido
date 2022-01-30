@@ -1,4 +1,5 @@
 import { Book } from './types';
+import { documentRoot } from './constants';
 
 const getBooks = (basePath: string): Book[] => {
   return [
