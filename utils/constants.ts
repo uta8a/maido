@@ -1,3 +1,4 @@
 const documentRoot = 'content';
+const bookToc = 'toc.md';
 
-export { documentRoot };
+export { documentRoot, bookToc };

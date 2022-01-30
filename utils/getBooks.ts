@@ -1,5 +1,5 @@
 import { Book, Index, Toc, IndexRaw } from './types';
-import { documentRoot } from './constants';
+import { documentRoot, bookToc } from './constants';
 import path from 'path';
 import fs from 'fs';
 import matter from 'gray-matter';
@@ -8,7 +8,7 @@ import toml from 'toml';
 const defaultImagePath = 'public/favicon.png';
 const defaultDate = new Date(Date.parse('2022-01-01T00:00:00+09:00'));
 const bookIndex = 'index.md';
-const bookToc = 'toc.md';
+
 const defaultBookList: Book[] = [
   {
     title: 'There is no book',
