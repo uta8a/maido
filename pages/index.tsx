@@ -9,121 +9,53 @@ import matter from 'gray-matter';
 import toml from 'toml';
 import { Article } from '../utils/types';
 import { getProjectTitle } from '../utils/getMetadata';
+import { getBooks } from '../utils/getBooks';
+import { Book, StringBook } from '../utils/types';
 
 type Props = {
-  path: ArticleInfo[];
+  books: StringBook[];
   projectTitle: string;
-};
-
-type ArticleInfo = {
-  title: string | undefined;
-  path: string;
-  date: Date;
 };
 
 const Home: NextPage<Props> = (props: Props) => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>props.projectTitle</title>
+        <title>{props.projectTitle}</title>
       </Head>
 
       <main className={styles.main}>
-        <p>{'Top>Page'}</p>
+        {props.books.map((book) => {
+          const date = new Date(Date.parse(book.date));
+          return (
+            <div>
+              <p>{book.title}</p>
+              <p>{`${date.getFullYear()} / ${
+                date.getMonth() + 1
+              } / ${date.getDay()}`}</p>
+              <p>{book.image_path}</p>
+            </div>
+          );
+        })}
       </main>
     </div>
   );
 };
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
-  const str = [
-    '---toml',
-    'title = "TOML"',
-    'description = "Front matter"',
-    'categories = "front matter toml"',
-    '---',
-    'This is content',
-  ].join('\n');
-
-  const file = matter(str, {
-    engines: {
-      toml: toml.parse.bind(toml),
-    },
-  });
-  console.log(file);
-
   // get metadata from project_settings.toml
   const projectTitle = getProjectTitle(process.cwd());
 
-  // get project name from dir/index.md or dirname
-  // const books = getBooks(process.cwd());
-  const a =
-    params !== undefined
-      ? typeof params.article === 'string'
-        ? params.article
-        : ''
-      : '';
-  const targetDir = path.join(process.cwd(), 'content', a);
-  const dirs = await fs
-    .readdirSync(targetDir, { withFileTypes: true })
-    .filter((dirent) => dirent.isDirectory())
-    .map((dirent) => dirent.name);
-  const paths = [];
-  for (const slug of dirs) {
-    const article = getArticleBySlug(a, slug);
-    paths.push({ title: article.title, path: slug, date: article.date });
-  }
-  paths.sort((a, b) => {
-    return new Date(a.date) < new Date(b.date) ? 1 : -1;
+  // get book data (title, date, image_path) from dir/index.md or dirname
+  const rawBooks = await getBooks(process.cwd());
+  const books = rawBooks.map((book) => {
+    return {
+      title: book.title,
+      date: book.date.toISOString(),
+      image_path: book.image_path,
+    };
   });
-  return { props: { path: paths, projectTitle: projectTitle } };
-};
-
-const getArticleBySlug = (article: string, slug: string): Article => {
-  // content/:project/article/dir/name/article_name.md
-  const fullPath = path.join(
-    process.cwd(),
-    'content',
-    article,
-    slug,
-    'index.md',
-  );
-  let fileRaw;
-  try {
-    fileRaw = fs.readFileSync(fullPath, 'utf8');
-  } catch (e) {
-    return {} as Article;
-  }
-  const { data, content } = matter(fileRaw, {
-    engines: {
-      toml: toml.parse.bind(toml),
-    },
-  });
-
-  // const fields = ['slug', 'content', 'title', 'type', 'draft', 'date'];
-  const initArticle: Article = {
-    slug: '',
-    content: '',
-    title: '',
-    type: 'diary',
-    draft: false,
-    date: new Date(),
-  };
-  type Ty = keyof Article;
-  const fields = Object.keys(initArticle) as Ty[];
-  const item: Article = {
-    slug: slug,
-    date: new Date(),
-  };
-  fields.forEach((field) => {
-    if (field === 'content') {
-      item[field] = content;
-    }
-    if (data[field] !== undefined) {
-      item[field] = data[field] as never;
-    }
-  });
-  return item as Article;
+  return { props: { books: books, projectTitle: projectTitle } };
 };
 
 export default Home;

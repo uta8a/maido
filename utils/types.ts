@@ -38,3 +38,9 @@ export type IndexRaw = {
 
 // 部分型
 export type IndexPartial = { [P in 'title' | 'date']: Index[P] };
+
+export type StringBook = {
+  title: string;
+  image_path: string;
+  date: string; // toISOString
+};
