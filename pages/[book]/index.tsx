@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import path from 'path';
 import { documentRoot } from '../../utils/constants';
 import { getArticleList } from '../../utils/getArticleList';
+import { makeArticleToc } from '../../utils/makeArticleToc';
 
 type Props = {
   books: StringBook[];
@@ -69,10 +70,11 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const articleList = await getArticleList(bookPath);
 
   // articleのtoc生成: Htmlを返す
-  // const articleToc = makeArticleToc(path.join(bookPath, 'index.md'));
+  const articleToc = await makeArticleToc(path.join(bookPath, 'index.md'));
 
   // 内容の生成: Htmlを返す
-  // const articleContent = makeArticleContent(bookPath);
+  // この時点でbookのrootはdraft = falseと仮定して良い(getBooks.tsで弾いている)
+  // const articleContent = makeArticleContent(path.join(bookPath, 'index.md'));
 
   // get metadata from project_settings.toml
   const projectTitle = getProjectTitle(process.cwd());

@@ -6,9 +6,8 @@ import MarkdownIt from 'markdown-it';
 import { DOMParser } from 'linkedom';
 import { IndexRaw } from './types';
 import markdownItAnchor from 'markdown-it-anchor';
-import markdownItTableOfContents from 'markdown-it-toc-done-right';
 
-const makeArticleToc = async (
+const makeArticleContent = async (
   articlePath: string,
 ): Promise<[IndexRaw, string]> => {
   const md = new MarkdownIt({
@@ -20,22 +19,18 @@ const makeArticleToc = async (
     permalinkBefore: true,
     permalinkSymbol: '#',
   });
-  md.use(markdownItTableOfContents);
   const domParser = new DOMParser();
   const [meta, content] = await getArticle(articlePath);
-  const articleHtml = md.render(content + '${toc}');
+  const articleHtml = md.render(content);
   const document = domParser.parseFromString(articleHtml, 'text/html');
   document.querySelectorAll('img').forEach((image_path) => {
-    image_path.src = path.join(
-      '/assets',
-      filterPathImage(articlePath, image_path.src),
-    );
+    image_path.src = filterPathImage(articlePath, image_path.src);
   });
   document.querySelectorAll('a').forEach((link) => {
     link.href = filterPathMd(path.basename(articlePath), link.href);
   });
-  const articleToc = document.querySelector('.table-of-contents').toString();
-  return [meta, articleToc];
+  const articleContent = document.toString();
+  return [meta, articleContent];
 };
 
 const getArticle = async (ArticlePath: string): Promise<[IndexRaw, string]> => {
@@ -86,9 +81,9 @@ const filterPathImage = (bookPath: string, src: string) => {
   if (/^http/.test(src)) {
     return src;
   } else if (/\.\//.test(src)) {
-    return `${bookPath}/${src.substring(2)}`;
+    return path.join('/', 'assets', bookPath, src.substring(2));
   } else {
-    return `${bookPath}/${src}`;
+    return path.join('/', 'assets', bookPath, src);
   }
 };
 
@@ -106,4 +101,4 @@ const filterPathMd = (bookPath: string, src: string) => {
   }
 };
 
-export { makeArticleToc, getArticle };
+export { makeArticleContent, getArticle };
