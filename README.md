@@ -16,6 +16,15 @@ yarn install
 yarn husky install
 ```
 
+# Todo
+
+- デザイン
+  - 左/右ボタンで前/次のコンテンツへ移動(mdbook風)
+  - list, tocは閉じられる(mdbook風)
+- テストを足す
+- リファクタリング
+  - コードの重複が多い
+
 # Spec
 
 ## Terms
