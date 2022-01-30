@@ -1,7 +1,7 @@
 import { getProjectTitle } from '../../utils/getMetadata';
 
 test('get project title from setting file', () => {
-  expect(getProjectTitle(process.cwd())).toBe('My Super docs');
+  expect(getProjectTitle(process.cwd())).toBe('My Super Books');
 });
 
 test('set default project title when no setting file', () => {
