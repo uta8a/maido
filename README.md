@@ -38,6 +38,7 @@ book-dir/
   article-1-dir/
     index.md
     image.png
+  article-2-file.md
 ```
 
 ## book-dir/index.md
