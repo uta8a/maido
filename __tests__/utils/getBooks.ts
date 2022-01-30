@@ -1,5 +1,6 @@
 import { getBooks } from '../../utils/getBooks';
 import { Book } from '../../utils/types';
+
 test('get book (title, image_path, date)', () => {
   const books: Book[] = [
     {
