@@ -40,7 +40,7 @@ test('get book (title, image_path, date)', () => {
   });
 });
 
-test(`get book which isn't exist`, () => {
+test("get book which isn't exist", () => {
   const books: Book[] = [
     {
       title: 'There is no book',
@@ -59,11 +59,16 @@ test(`get book which isn't exist`, () => {
 test('listing "content/" directory', () => {
   const bookRootPath = path.join(process.cwd(), 'content');
   return walkDir(bookRootPath).then((data) => {
-    expect(data).toEqual(['testz', 'testz-index', 'testz-index-toc']);
+    expect(data).toEqual([
+      'testz',
+      'testz-index',
+      'testz-index-toc',
+      'testz-index-toc-ignored',
+    ]);
   });
 });
 
-test(`listing directory which doesn't exist`, () => {
+test("listing directory which doesn't exist", () => {
   const bookRootPath = path.join(process.cwd(), 'no_directory');
   return walkDir(bookRootPath).then((data) => {
     // objectをstringとして見たときにErrorが含まれていればOK
@@ -84,13 +89,13 @@ test('check file exists when it is directory', () => {
   expect(checkFileExists(path.join(process.cwd(), 'content'))).toEqual(false);
 });
 
-test(`check file exists when it isn't file nor directory`, () => {
+test("check file exists when it isn't file nor directory", () => {
   expect(checkFileExists(path.join(process.cwd(), 'no_directory'))).toEqual(
     false,
   );
 });
 
-test(`book-dir/index.md doesn't exists`, () => {
+test("book-dir/index.md doesn't exists", () => {
   const defaultBookTitle = 'There is no book';
   const indexPath = path.join(process.cwd(), 'content', 'testz', 'index.md');
   return getBookData(defaultBookTitle, indexPath).then((data) => {
@@ -98,7 +103,7 @@ test(`book-dir/index.md doesn't exists`, () => {
   });
 });
 
-test(`book-dir/index.md exists`, () => {
+test('book-dir/index.md exists', () => {
   const defaultBookTitle = 'There is no book';
   const indexPath = path.join(
     process.cwd(),
@@ -124,14 +129,14 @@ Hello`;
   expect(getIndexMetadata(str).title).toEqual('index.md');
 });
 
-test(`book-dir/toc.md doesn't exists`, () => {
+test("book-dir/toc.md doesn't exists", () => {
   const tocPath = path.join(process.cwd(), 'content', 'testz', 'toc.md');
   return getImagePath(tocPath).then((data) => {
     expect(data).toEqual('public/favicon.png');
   });
 });
 
-test(`book-dir/toc.md exists`, () => {
+test('book-dir/toc.md exists', () => {
   const tocPath = path.join(
     process.cwd(),
     'content',
