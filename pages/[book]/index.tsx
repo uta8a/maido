@@ -64,7 +64,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
         ? params.book
         : ''
       : '';
-  // articlelistの生成(toc.md): Markdownを返す
+  // articlelistの生成(toc.md): Htmlを返す
   // const rawArticleList = getArticleList(bookPath);
 
   // articleのtoc生成: Htmlを返す
