@@ -13,3 +13,8 @@ export type Article = {
 export type Props = {
   article: Article;
 };
+export type Book = {
+  title: string;
+  image_path: string;
+  date: Date;
+};

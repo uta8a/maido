@@ -56,7 +56,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const projectTitle = getProjectTitle(process.cwd());
 
   // get project name from dir/index.md or dirname
-  // const
+  // const books = getBooks(process.cwd());
   const a =
     params !== undefined
       ? typeof params.article === 'string'
