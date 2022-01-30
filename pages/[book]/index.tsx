@@ -43,9 +43,9 @@ const BookPage: NextPage<Props> = (props: Props) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const bookRootPath = path.join(process.cwd(), documentRoot); // 'content'
+  const rootPath = path.join(process.cwd(), documentRoot); // 'content'
   let paths;
-  let rawPaths = await walkDir(bookRootPath);
+  let rawPaths = await walkDir(rootPath);
   if (rawPaths instanceof Error) {
     paths = ['/'];
     return { paths, fallback: false };
@@ -58,6 +58,21 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
+  const bookPath =
+    params !== undefined
+      ? typeof params.book === 'string'
+        ? params.book
+        : ''
+      : '';
+  // articlelistの生成(toc.md): Markdownを返す
+  // const rawArticleList = getArticleList(bookPath);
+
+  // articleのtoc生成: Htmlを返す
+  // const articleToc = makeArticleToc(bookPath);
+
+  // 内容の生成: Htmlを返す
+  // const articleContent = makeArticleContent(bookPath);
+
   // get metadata from project_settings.toml
   const projectTitle = getProjectTitle(process.cwd());
 

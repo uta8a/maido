@@ -20,6 +20,7 @@ export type Book = {
   image_path: string;
   date: Date;
   book_path: string;
+  draft: boolean;
 };
 
 export type Index = {
@@ -35,10 +36,8 @@ export type Toc = {
 export type IndexRaw = {
   title: string;
   date: string;
+  draft: boolean;
 };
-
-// 部分型
-export type IndexPartial = { [P in 'title' | 'date']: Index[P] };
 
 export type StringBook = {
   title: string;

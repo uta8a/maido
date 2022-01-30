@@ -1,4 +1,4 @@
-import { Book, Index, Toc, IndexRaw, IndexPartial } from './types';
+import { Book, Index, Toc, IndexRaw } from './types';
 import { documentRoot } from './constants';
 import path from 'path';
 import fs from 'fs';
@@ -15,6 +15,7 @@ const defaultBookList: Book[] = [
     image_path: 'public/favicon.png',
     date: defaultDate,
     book_path: '/',
+    draft: false,
   },
 ];
 
@@ -55,7 +56,9 @@ const getBookList = async (bookPaths: string[]): Promise<Book[]> => {
   const bookList: Book[] = [];
   bookPaths.forEach(async (bookPath) => {
     const bookMetadata = await getBookMetadata(bookPath);
-    bookList.push(bookMetadata);
+    if (!bookMetadata.draft) {
+      bookList.push(bookMetadata);
+    }
   });
   return bookList;
 };
@@ -66,16 +69,18 @@ const getBookMetadata = async (bookPath: string): Promise<Book> => {
   let title = path.basename(bookPath);
   let date = defaultDate;
   let image_path = defaultImagePath;
+  let draft = false;
   const book_path = path.basename(bookPath);
   if (checkFileExists(indexPath)) {
     const data = await getBookData(title, indexPath);
     title = data.title;
     date = data.date;
+    draft = data.draft;
   }
   if (checkFileExists(tocPath)) {
     image_path = await getImagePath(tocPath);
   }
-  return { title, date, image_path, book_path };
+  return { title, date, image_path, book_path, draft };
 };
 
 // Check file existence
@@ -97,15 +102,19 @@ const checkFileExists = (filepath: string): boolean => {
 const getBookData = async (
   defaultBookTitle: string,
   indexPath: string,
-): Promise<IndexPartial> => {
+): Promise<Index> => {
   let fileRaw;
   try {
     fileRaw = fs.readFileSync(indexPath, 'utf-8');
   } catch {
-    return { title: defaultBookTitle, date: defaultDate };
+    return { title: defaultBookTitle, date: defaultDate, draft: false };
   }
   const data = getIndexMetadata(fileRaw);
-  return { title: data.title, date: new Date(Date.parse(data.date)) };
+  return {
+    title: data.title,
+    date: new Date(Date.parse(data.date)),
+    draft: data.draft,
+  };
 };
 
 // str === index.md's content
@@ -117,11 +126,7 @@ const getIndexMetadata = (str: string): IndexRaw => {
     language: 'toml',
     delimiters: '+++',
   });
-  const data = {
-    title: rawData.data.title,
-    date: rawData.data.date,
-  };
-  return data;
+  return rawData.data as IndexRaw;
 };
 
 const getImagePath = async (tocPath: string): Promise<string> => {
