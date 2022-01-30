@@ -44,6 +44,8 @@
     "linkedom": "^0.13.2",
     "lint-staged": "^11.0.0",
     "markdown-it": "^12.3.2",
+    "markdown-it-anchor": "^8.4.1",
+    "markdown-it-toc-done-right": "^4.2.0",
     "prettier": "^2.3.2",
     "toml": "^3.0.0",
     "ts-jest": "^27.1.3",
