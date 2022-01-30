@@ -4,6 +4,9 @@ import {
   checkFileExists,
   getBookTitle,
   getIndexMetadata,
+  getImagePath,
+  getTocMetadata,
+  defaultImagePath,
 } from '../../utils/getBooks';
 import { Book } from '../../utils/types';
 import path from 'path';
@@ -87,4 +90,33 @@ draft = false
 
 Hello`;
   expect(getIndexMetadata(str).title).toEqual('index.md');
+});
+
+test(`book-dir/toc.md doesn't exists`, () => {
+  const tocPath = path.join(process.cwd(), 'content', 'testz', 'toc.md');
+  return getImagePath(tocPath).then((data) => {
+    expect(data).toEqual('public/favicon.png');
+  });
+});
+
+test(`book-dir/toc.md exists`, () => {
+  const tocPath = path.join(
+    process.cwd(),
+    'content',
+    'testz-index-toc',
+    'toc.md',
+  );
+  return getImagePath(tocPath).then((data) => {
+    expect(data).toEqual('./thumbnail.png');
+  });
+});
+
+test('frontmatter', () => {
+  const str = `+++
+image_path = "./thumbnail.png"
++++
+
+- [index.md](./index.md)
+  - [置き場](./test-article.md)`;
+  expect(getTocMetadata(str).image_path).toEqual('./thumbnail.png');
 });

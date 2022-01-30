@@ -5,6 +5,7 @@ import fs from 'fs';
 import matter from 'gray-matter';
 import toml from 'toml';
 
+const defaultImagePath = 'public/favicon.png';
 const bookIndex = 'index.md';
 const bookToc = 'toc.md';
 const defaultBookList: Book[] = [
@@ -60,11 +61,12 @@ const getBookMetadata = async (bookPath: string): Promise<Book> => {
   const indexPath = path.join(bookPath, bookIndex);
   const tocPath = path.join(bookPath, bookToc);
   let title = path.basename(bookPath);
-  let image_path = 'public/favicon.png';
+  let image_path = defaultImagePath;
   if (checkFileExists(indexPath)) {
     title = await getBookTitle(title, indexPath);
   }
   if (checkFileExists(tocPath)) {
+    image_path = await getImagePath(tocPath);
   }
   return defaultBookList[0];
 };
@@ -111,4 +113,36 @@ const getIndexMetadata = (str: string): Index => {
   return rawData.data as Index;
 };
 
-export { getBooks, walkDir, checkFileExists, getBookTitle, getIndexMetadata };
+const getImagePath = async (tocPath: string): Promise<string> => {
+  let fileRaw;
+  try {
+    fileRaw = fs.readFileSync(tocPath, 'utf-8');
+  } catch {
+    return defaultImagePath;
+  }
+  const metadata = getTocMetadata(fileRaw);
+  return metadata.image_path;
+};
+
+// str === toc.md's content
+const getTocMetadata = (str: string): Toc => {
+  const rawData = matter(str, {
+    engines: {
+      toml: toml.parse.bind(toml),
+    },
+    language: 'toml',
+    delimiters: '+++',
+  });
+  return rawData.data as Toc;
+};
+
+export {
+  getBooks,
+  walkDir,
+  checkFileExists,
+  getBookTitle,
+  getIndexMetadata,
+  getImagePath,
+  getTocMetadata,
+  defaultImagePath,
+};
