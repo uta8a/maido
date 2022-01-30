@@ -19,7 +19,6 @@ const defaultBookList: Book[] = [
 
 const getBooks = (basePath: string): Promise<Book[]> => {
   const bookRootPath = path.join(basePath, documentRoot); // 'content'
-  // get book full paths
   const bookList: Promise<Book[]> = walkDir(bookRootPath).then((data) => {
     if (data instanceof Error) {
       return defaultBookList;
@@ -30,9 +29,6 @@ const getBooks = (basePath: string): Promise<Book[]> => {
     if (bookFullPaths.length === 0) {
       return defaultBookList;
     }
-    // TODO functionを用いて、type Bookを返す→Promise<Book[]>が返り値になるのでPromiseを返す
-    // getBooksがあるので、曖昧さを避けてgetBookはやめてgetBookMetadataにした
-    // TODO getBookMetadata と bookList と getBooks, もっといい命名できそう。
     const bookList = getBookList(bookFullPaths);
     return bookList;
   });
@@ -60,7 +56,6 @@ const getBookList = async (bookPaths: string[]): Promise<Book[]> => {
     const bookMetadata = await getBookMetadata(bookPath);
     bookList.push(bookMetadata);
   });
-  // Check existence of `book-dir/index.md` is not directory
   return bookList;
 };
 
