@@ -10,7 +10,7 @@ test('get book (title, image_path, date)', () => {
       date: new Date(Date.parse('2022-01-18T05:28:15+09:00')),
     },
   ];
-  expect(getBooks(process.cwd())).toStrictEqual(books);
+  expect(getBooks(process.cwd())).toStrictEqual(books); // TODO async系になるので書き換え
 });
 
 test('listing "content/" directory', () => {
