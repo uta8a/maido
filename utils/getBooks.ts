@@ -6,16 +6,19 @@ import fs from 'fs';
 const getBooks = (basePath: string): Book[] => {
   const bookRootPath = path.join(basePath, documentRoot); // 'content'
   // get book full paths
-  const bookPaths = walkDir(bookRootPath);
-  if (bookPaths instanceof Error) {
-    return [
-      {
-        title: 'There is no book',
-        image_path: 'public/favicon.png',
-        date: new Date(Date.parse('2022-01-18T05:28:15+09:00')),
-      },
-    ];
-  }
+  let bookFullPaths: string[];
+  walkDir(bookRootPath).then((data) => {
+    if (data instanceof Error) {
+      return [
+        {
+          title: 'There is no book',
+          image_path: 'public/favicon.png',
+          date: new Date(Date.parse('2022-01-01T00:00:00+09:00')),
+        },
+      ];
+    }
+    bookFullPaths = data.map((path) => bookRootPath + path);
+  });
 
   return [
     {
@@ -32,7 +35,7 @@ const walkDir = async (rootPath: string): Promise<string[] | Error> => {
     bookDirPaths = await fs
       .readdirSync(rootPath, { withFileTypes: true })
       .filter((dirent) => dirent.isDirectory())
-      .map((dirent) => path.join(rootPath, dirent.name));
+      .map((dirent) => dirent.name);
   } catch (err) {
     return Error(`Cannot read ${rootPath} :  ${err}`);
   }

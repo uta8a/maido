@@ -16,11 +16,15 @@ test('get book (title, image_path, date)', () => {
 test('listing "content/" directory', () => {
   const bookRootPath = path.join(process.cwd(), 'content');
   return walkDir(bookRootPath).then((data) => {
-    expect(data).toBe(['testz', 'testz-index', 'testz-index-toc']);
+    expect(data).toEqual(['testz', 'testz-index', 'testz-index-toc']);
   });
 });
 
 test(`listing directory which doesn't exist`, () => {
   const bookRootPath = path.join(process.cwd(), 'no_directory');
-  expect(walkDir(bookRootPath)).toBe(new Error());
+  return walkDir(bookRootPath).then((data) => {
+    // objectをstringとして見たときにErrorが含まれていればOK
+    // Errorの特定まではしてない
+    expect(`${data}`).toMatch('Error');
+  });
 });
