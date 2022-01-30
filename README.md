@@ -1,4 +1,4 @@
-## maido / easy SSG using Next.js
+# maido / easy SSG using Next.js
 
 ```
 eslint
