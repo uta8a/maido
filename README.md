@@ -1,15 +1,6 @@
-# maido / easy SSG using Next.js
+# maido / WIP Static Site Generator (using Next.js)
 
-```
-eslint
-prettier
-husky&lint-staged
-editorconfig
-docker
-nextjs
-typescript
-yarn, npm(どちらかに統一したい)
-```
+# dev
 
 ```
 yarn install
