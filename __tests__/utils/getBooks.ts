@@ -1,5 +1,6 @@
-import { getBooks } from '../../utils/getBooks';
+import { getBooks, walkDir } from '../../utils/getBooks';
 import { Book } from '../../utils/types';
+import path from 'path';
 
 test('get book (title, image_path, date)', () => {
   const books: Book[] = [
@@ -10,4 +11,18 @@ test('get book (title, image_path, date)', () => {
     },
   ];
   expect(getBooks(process.cwd())).toStrictEqual(books);
+});
+
+test('listing "content/" directory', () => {
+  const bookRootPath = path.join(process.cwd(), 'content');
+  expect(walkDir(bookRootPath)).toBe([
+    'testz',
+    'testz-index',
+    'testz-index-toc',
+  ]);
+});
+
+test(`listing directory which doesn't exist`, () => {
+  const bookRootPath = path.join(process.cwd(), 'no_directory');
+  expect(walkDir(bookRootPath)).toBe(new Error());
 });

@@ -3,8 +3,8 @@ import fs from 'fs';
 import toml from 'toml';
 import { documentRoot } from './constants';
 
-const settingFilename: string = 'project_settings.toml';
-const defaultProjectTitle: string = 'My TechBlog';
+const settingFilename = 'project_settings.toml';
+const defaultProjectTitle = 'My TechBlog';
 
 // fullpathを得る、fileIO、file readの3つに分割できて、IO以外はテストが簡単なので外部関数に分割してもいいかも
 const getProjectTitle = (basePath: string): string => {

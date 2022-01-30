@@ -1,3 +1,3 @@
-const documentRoot: string = 'content';
+const documentRoot = 'content';
 
 export { documentRoot };
