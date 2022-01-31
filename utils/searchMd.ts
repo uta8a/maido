@@ -1,7 +1,6 @@
 import path from 'path';
 import fs from 'fs';
 
-// TODO fix return fullPath
 const searchMd = async (rootPath: string): Promise<string[]> => {
   const mdDirPaths: string[] = [];
   try {
