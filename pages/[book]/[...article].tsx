@@ -11,6 +11,7 @@ import { documentRoot } from '../../utils/constants';
 import { getArticleList } from '../../utils/getArticleList';
 import { makeArticleToc } from '../../utils/makeArticleToc';
 import { makeArticleContent } from '../../utils/makeArticleContent';
+import { searchMd } from '../../utils/searchMd';
 
 type Props = {
   meta: IndexRaw;
@@ -54,15 +55,10 @@ const BookPage: NextPage<Props> = (props: Props) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const rootPath = path.join(process.cwd(), documentRoot); // 'content'
-  let paths;
-  const rawPaths = await walkDir(rootPath);
-  if (rawPaths instanceof Error) {
-    paths = ['/'];
-    return { paths, fallback: false };
-  }
-  // paths needs prefix `/`
-  paths = rawPaths.map((rawPath) => {
-    return path.join('/', rawPath);
+  const rawPaths = await searchMd(rootPath);
+  // paths needs prefix `/`, trim unnecessary prefix and postfix `.md`
+  const paths = rawPaths.map((rawPath) => {
+    return path.join('/', rawPath.slice(rootPath.length, -3));
   });
   return { paths, fallback: false };
 };

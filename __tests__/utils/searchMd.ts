@@ -10,14 +10,12 @@ test('check if it is Markdown file by file extension', () => {
 });
 
 test('check nested book', () => {
-  return searchMd(
-    path.join(process.cwd(), 'content', 'testz-index-toc-nest'),
-  ).then((data) => {
-    expect(data).toEqual([
-      'test-data.md',
-      'index.md',
-      'test-article.md',
-      'toc.md',
-    ]);
+  const rootPath = path.join(process.cwd(), 'content', 'testz-index-toc-nest');
+  return searchMd(rootPath).then((data) => {
+    expect(data).toEqual(
+      ['a/b/c/test-data.md', 'index.md', 'test-article.md', 'toc.md'].map(
+        (data) => path.join(rootPath, data),
+      ),
+    );
   });
 });

@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 
+// TODO fix return fullPath
 const searchMd = async (rootPath: string): Promise<string[]> => {
   const mdDirPaths: string[] = [];
   try {
@@ -11,7 +12,7 @@ const searchMd = async (rootPath: string): Promise<string[]> => {
         mdDirPaths.push(...mds);
       } else {
         if (checkMd(dirent.name)) {
-          mdDirPaths.push(dirent.name);
+          mdDirPaths.push(path.join(rootPath, dirent.name));
         }
       }
     }
