@@ -1,8 +1,7 @@
 import { GetStaticPaths, NextPage, GetStaticProps } from 'next';
 import Head from 'next/head';
-import styles from '../../styles/Home.module.css';
-import React from 'react';
-import { IndexRaw } from '../../utils/types';
+import React, { useEffect, useState } from 'react';
+import { ArticleLayout, IndexRaw } from '../../utils/types';
 import path from 'path';
 import { documentRoot } from '../../utils/constants';
 import { getArticleList } from '../../utils/getArticleList';
@@ -12,6 +11,7 @@ import { walkDir } from '../../utils/getBooks';
 import { ArticleList } from '@/components/ArticleList';
 import { ArticleToc } from '@/components/ArticleToc';
 import { ArticleContent } from '@/components/ArticleContent';
+import Draggable from 'react-draggable';
 
 type Props = {
   meta: IndexRaw;
@@ -20,17 +20,39 @@ type Props = {
   toc: string;
 };
 
+const defaultLayout: ArticleLayout = {
+  list_px: 0,
+  toc_px: 0,
+};
+
 const ArticlePage: NextPage<Props> = (props: Props) => {
+  const [layout, setLayout] = useState<ArticleLayout>(defaultLayout);
+
   return (
-    <div className={styles.container}>
+    <div className="">
       <Head>
         <title>{props.meta.title}</title>
       </Head>
 
-      <main className={styles.main}>
-        <ArticleList list={props.list} />
-        <ArticleContent content={props.content} />
-        <ArticleToc toc={props.toc} />
+      <main className="">
+        <div className="flex">
+          <div className="h-screen fixed bg-gray-100 w-20">
+            <ArticleList list={props.list} />
+            <Draggable axis="x">
+              <div
+                id="list-resize-handler"
+                className="absolute right-0 top-0 bottom-0 h-screen fixed w-5 bg-sky-400"
+              ></div>
+            </Draggable>
+          </div>
+          <div className="bg-yellow-100 pl-20 pr-20 w-full">
+            <ArticleContent content={props.content} />
+          </div>
+          <div className="h-screen fixed bg-gray-100 w-20 right-0">
+            <ArticleToc toc={props.toc} />
+            <div id="toc-resize-handler"></div>
+          </div>
+        </div>
       </main>
     </div>
   );

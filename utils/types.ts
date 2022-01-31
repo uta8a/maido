@@ -45,3 +45,8 @@ export type StringBook = {
   date: string; // toISOString
   book_path: string;
 };
+
+export type ArticleLayout = {
+  list_px: number;
+  toc_px: number;
+};
