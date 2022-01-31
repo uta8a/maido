@@ -1,6 +1,5 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
 import React from 'react';
 import { GetStaticProps } from 'next';
 import { getProjectTitle } from '../utils/getMetadata';
@@ -22,31 +21,22 @@ const Home: NextPage<Props> = (props: Props) => {
       </Head>
 
       <main>
-        {props.books.map((book) => {
-          const date = new Date(Date.parse(book.date));
-          return (
-            <div key={book.title}>
-              <p>{book.title}</p>
-              <p></p>
-              <p>{book.image_path}</p>
-              <p>{book.book_path}</p>
-            </div>
-          );
-        })}
-        {props.books.map((book) => {
-          const rawDate = new Date(Date.parse(book.date));
-          const date = `${rawDate.getFullYear()} / ${
-            rawDate.getMonth() + 1
-          } / ${rawDate.getDay()}`;
-          return (
-            <BookCard
-              key={book.book_path}
-              title={book.title}
-              date={date}
-              linkPath={book.book_path}
-            />
-          );
-        })}
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {props.books.map((book) => {
+            const rawDate = new Date(Date.parse(book.date));
+            const date = `${rawDate.getFullYear()} / ${
+              rawDate.getMonth() + 1
+            } / ${rawDate.getDay()}`;
+            return (
+              <BookCard
+                key={book.book_path}
+                title={book.title}
+                date={date}
+                linkPath={book.book_path}
+              />
+            );
+          })}
+        </div>
       </main>
     </div>
   );
