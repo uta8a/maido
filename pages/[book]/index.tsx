@@ -9,6 +9,10 @@ import { getArticleList } from '../../utils/getArticleList';
 import { makeArticleToc } from '../../utils/makeArticleToc';
 import { makeArticleContent } from '../../utils/makeArticleContent';
 import { walkDir } from '../../utils/getBooks';
+import { ArticleList } from '@/components/ArticleList';
+import { ArticleToc } from '@/components/ArticleToc';
+import { ArticleContent } from '@/components/ArticleContent';
+
 type Props = {
   meta: IndexRaw;
   list: string;
@@ -24,24 +28,9 @@ const ArticlePage: NextPage<Props> = (props: Props) => {
       </Head>
 
       <main className={styles.main}>
-        <div
-          className="maido-list"
-          dangerouslySetInnerHTML={{
-            __html: props.list || 'No list.',
-          }}
-        />
-        <div
-          className="maido-content"
-          dangerouslySetInnerHTML={{
-            __html: props.content || 'No content.',
-          }}
-        />
-        <div
-          className="maido-toc"
-          dangerouslySetInnerHTML={{
-            __html: props.toc || 'No toc.',
-          }}
-        />
+        <ArticleList list={props.list} />
+        <ArticleContent content={props.content} />
+        <ArticleToc toc={props.toc} />
       </main>
     </div>
   );
