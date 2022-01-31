@@ -2,6 +2,7 @@ import type { AppProps } from 'next/app';
 import React from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
+import 'tailwindcss/tailwind.css';
 
 const MyApp: NextPage<AppProps> = ({ Component, pageProps }: AppProps) => {
   return (

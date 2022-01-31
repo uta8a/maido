@@ -6,6 +6,8 @@ import { GetStaticProps } from 'next';
 import { getProjectTitle } from '../utils/getMetadata';
 import { getBooks } from '../utils/getBooks';
 import { StringBook } from '../utils/types';
+import path from 'path';
+import { BookCard } from '../components/BookCard';
 
 type Props = {
   books: StringBook[];
@@ -14,23 +16,35 @@ type Props = {
 
 const Home: NextPage<Props> = (props: Props) => {
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>{props.projectTitle}</title>
       </Head>
 
-      <main className={styles.main}>
+      <main>
         {props.books.map((book) => {
           const date = new Date(Date.parse(book.date));
           return (
             <div key={book.title}>
               <p>{book.title}</p>
-              <p>{`${date.getFullYear()} / ${
-                date.getMonth() + 1
-              } / ${date.getDay()}`}</p>
+              <p></p>
               <p>{book.image_path}</p>
               <p>{book.book_path}</p>
             </div>
+          );
+        })}
+        {props.books.map((book) => {
+          const rawDate = new Date(Date.parse(book.date));
+          const date = `${rawDate.getFullYear()} / ${
+            rawDate.getMonth() + 1
+          } / ${rawDate.getDay()}`;
+          return (
+            <BookCard
+              key={book.book_path}
+              title={book.title}
+              date={date}
+              linkPath={book.book_path}
+            />
           );
         })}
       </main>
@@ -49,7 +63,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
       title: book.title,
       date: book.date.toISOString(),
       image_path: book.image_path,
-      book_path: book.book_path,
+      book_path: path.join('/', book.book_path),
     };
   });
   return { props: { books: books, projectTitle: projectTitle } };
