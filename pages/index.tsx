@@ -7,6 +7,7 @@ import { getBooks } from '../utils/getBooks';
 import { StringBook } from '../utils/types';
 import path from 'path';
 import { BookCard } from '../components/BookCard';
+import Link from 'next/link';
 
 type Props = {
   books: StringBook[];
@@ -21,21 +22,32 @@ const Home: NextPage<Props> = (props: Props) => {
       </Head>
 
       <main>
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {props.books.map((book) => {
-            const rawDate = new Date(Date.parse(book.date));
-            const date = `${rawDate.getFullYear()} / ${
-              rawDate.getMonth() + 1
-            } / ${rawDate.getDay()}`;
-            return (
-              <BookCard
-                key={book.book_path}
-                title={book.title}
-                date={date}
-                linkPath={book.book_path}
-              />
-            );
-          })}
+        {/* Header */}
+        <div className="mx-auto max-w-7xl py-10 px-10 grid place-items-center">
+          <Link href="/">
+            <a className="inline-block font-thin text-3xl text-center m-0 whitespace-no-wrap overflow-hidden">
+              {props.projectTitle}
+            </a>
+          </Link>
+        </div>
+        {/* ContentWrapper */}
+        <div className="mx-auto max-w-7xl px-10">
+          <div className="grid place-items-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {props.books.map((book) => {
+              const rawDate = new Date(Date.parse(book.date));
+              const date = `${rawDate.getFullYear()} / ${
+                rawDate.getMonth() + 1
+              } / ${rawDate.getDay()}`;
+              return (
+                <BookCard
+                  key={book.book_path}
+                  title={book.title}
+                  date={date}
+                  linkPath={book.book_path}
+                />
+              );
+            })}
+          </div>
         </div>
       </main>
     </div>
