@@ -9,7 +9,7 @@ const ArticleContent: FunctionComponent<Props> = (props: Props) => {
     <div
       className="maido-content"
       dangerouslySetInnerHTML={{
-        __html: props.content || 'No content.',
+        __html: props.content || '<div>No content.</div>',
       }}
     />
   );

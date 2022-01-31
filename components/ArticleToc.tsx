@@ -9,7 +9,7 @@ const ArticleToc: FunctionComponent<Props> = (props: Props) => {
     <div
       className="maido-toc"
       dangerouslySetInnerHTML={{
-        __html: props.toc || 'No toc.',
+        __html: props.toc || '<div>No toc.</div>',
       }}
     />
   );
