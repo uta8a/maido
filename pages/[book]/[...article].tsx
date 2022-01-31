@@ -2,10 +2,7 @@ import { GetStaticPaths, NextPage, GetStaticProps } from 'next';
 import Head from 'next/head';
 import styles from '../../styles/Home.module.css';
 import React from 'react';
-import { getProjectTitle } from '../../utils/getMetadata';
-import { getBooks, walkDir } from '../../utils/getBooks';
 import { IndexRaw } from '../../utils/types';
-import { useRouter } from 'next/router';
 import path from 'path';
 import { documentRoot } from '../../utils/constants';
 import { getArticleList } from '../../utils/getArticleList';
@@ -21,8 +18,6 @@ type Props = {
 };
 
 const BookPage: NextPage<Props> = (props: Props) => {
-  const router = useRouter();
-  const { book } = router.query;
   return (
     <div className={styles.container}>
       <Head>
