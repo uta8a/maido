@@ -70,19 +70,28 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
         ? params.book
         : ''
       : '';
+  const articleBasePath =
+    params !== undefined
+      ? Array.isArray(params.article)
+        ? path.join(...params.article)
+        : ''
+      : '';
   const bookPath = path.join(process.cwd(), 'content', bookBasePath);
-  const articleName = 'index.md';
+  const articlePath = path.join(
+    process.cwd(),
+    'content',
+    bookBasePath,
+    articleBasePath + '.md',
+  );
   // articlelistの生成(toc.md): Htmlを返す
   const articleList = await getArticleList(bookPath);
 
   // articleのtoc生成: Htmlを返す
-  const articleToc = await makeArticleToc(path.join(bookPath, articleName));
+  const articleToc = await makeArticleToc(articlePath);
 
   // 内容の生成: Htmlを返す
   // この時点でbookのrootはdraft = falseと仮定して良い(getBooks.tsで弾いている)
-  const articleContent = await makeArticleContent(
-    path.join(bookPath, articleName),
-  );
+  const articleContent = await makeArticleContent(articlePath);
 
   const listHtml = articleList;
   const metadata = articleContent[0];
