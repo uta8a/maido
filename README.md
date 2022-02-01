@@ -1,5 +1,11 @@
 # maido / WIP Static Site Generator (using Next.js)
 
+# usage
+
+```
+DOCUMENT_ROOT=../../../../path/to/content yarn dev
+```
+
 # dev
 
 ```
