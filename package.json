@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "precommit": "lint-staged",
-    "dev": "next dev",
+    "dev": "next-remote-watch $DOCUMENT_ROOT",
     "build": "next build",
     "start": "next start",
     "lint": "eslint '__tests__/{**/,**/**/}*.ts{,x}' 'pages/{**/,**/**/}*.ts{,x}' 'utils/{**/,**/**/}*.ts{,x}'",
@@ -47,6 +47,7 @@
     "markdown-it": "^12.3.2",
     "markdown-it-anchor": "^8.4.1",
     "markdown-it-toc-done-right": "^4.2.0",
+    "next-remote-watch": "^1.0.0",
     "postcss": "^8.4.5",
     "prettier": "^2.3.2",
     "react-draggable": "^4.4.4",
