@@ -21,17 +21,17 @@ type Props = {
 };
 
 const defaultLayout: ArticleLayout = {
-  list_px: 305, // 5: list-resize-handler width
-  toc_px: 305,
+  list_px: 300, // 5: list-resize-handler width
+  toc_px: 300,
 };
 
 const ArticlePage: NextPage<Props> = (props: Props) => {
   const [layout, setLayout] = useState<ArticleLayout>(defaultLayout);
   const dragList = (e: DraggableEvent, data: DraggableData) => {
-    setLayout({ list_px: 305 + data.x, toc_px: layout.toc_px });
+    setLayout({ list_px: 300 + data.x, toc_px: layout.toc_px });
   };
   const dragToc = (e: DraggableEvent, data: DraggableData) => {
-    setLayout({ list_px: layout.list_px, toc_px: 305 - data.x });
+    setLayout({ list_px: layout.list_px, toc_px: 300 - data.x });
   };
   return (
     <div className="">
@@ -49,7 +49,7 @@ const ArticlePage: NextPage<Props> = (props: Props) => {
             <Draggable axis="x" onDrag={dragList}>
               <div
                 id="list-resize-handler"
-                style={{ cursor: 'move', left: '300px', width: '5px' }}
+                style={{ cursor: 'move', left: '295px', width: '5px' }}
                 className="absolute top-0 bottom-0 h-screen fixed"
               ></div>
             </Draggable>
@@ -71,7 +71,7 @@ const ArticlePage: NextPage<Props> = (props: Props) => {
             <Draggable axis="x" onDrag={dragToc}>
               <div
                 id="toc-resize-handler"
-                style={{ cursor: 'move', right: '300px', width: '5px' }}
+                style={{ cursor: 'move', right: '295px', width: '5px' }}
                 className="absolute top-0 bottom-0 h-screen fixed"
               ></div>
             </Draggable>
