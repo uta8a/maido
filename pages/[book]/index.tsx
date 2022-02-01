@@ -46,7 +46,7 @@ const ArticlePage: NextPage<Props> = (props: Props) => {
             className="h-screen fixed bg-gray-100"
           >
             <ArticleList list={props.list} />
-            <Draggable axis="x" onDrag={dragList} bounds={{ left: 100 }}>
+            <Draggable axis="x" onDrag={dragList} bounds={{ left: -100 }}>
               <div
                 id="list-resize-handler"
                 style={{ cursor: 'move', left: '295px', width: '5px' }}
