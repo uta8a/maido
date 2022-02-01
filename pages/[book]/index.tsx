@@ -11,7 +11,7 @@ import { walkDir } from '../../utils/getBooks';
 import { ArticleList } from '@/components/ArticleList';
 import { ArticleToc } from '@/components/ArticleToc';
 import { ArticleContent } from '@/components/ArticleContent';
-import Draggable from 'react-draggable';
+import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 
 type Props = {
   meta: IndexRaw;
@@ -21,13 +21,21 @@ type Props = {
 };
 
 const defaultLayout: ArticleLayout = {
-  list_px: 0,
-  toc_px: 0,
+  list_px: 305, // 5: list-resize-handler width
+  toc_px: 305,
 };
 
 const ArticlePage: NextPage<Props> = (props: Props) => {
   const [layout, setLayout] = useState<ArticleLayout>(defaultLayout);
-
+  const dragList = (e: DraggableEvent, data: DraggableData) => {
+    console.log('data', data);
+    setLayout({ list_px: 305 + data.x, toc_px: layout.toc_px });
+  };
+  const dragToc = (e: DraggableEvent, data: DraggableData) => {
+    console.log(window.innerWidth, data.x + data.deltaX);
+    console.log('data', data, layout.toc_px);
+    setLayout({ list_px: layout.list_px, toc_px: 305 - data.x });
+  };
   return (
     <div className="">
       <Head>
@@ -36,21 +44,40 @@ const ArticlePage: NextPage<Props> = (props: Props) => {
 
       <main className="">
         <div className="flex">
-          <div className="h-screen fixed bg-gray-100 w-20">
+          <div
+            style={{ width: `${layout.list_px}px` }}
+            className="h-screen fixed bg-gray-100"
+          >
             <ArticleList list={props.list} />
-            <Draggable axis="x">
+            <Draggable axis="x" onDrag={dragList}>
               <div
                 id="list-resize-handler"
-                className="absolute right-0 top-0 bottom-0 h-screen fixed w-5 bg-sky-400"
+                style={{ cursor: 'move', left: '300px', width: '5px' }}
+                className="absolute top-0 bottom-0 h-screen fixed"
               ></div>
             </Draggable>
           </div>
-          <div className="bg-yellow-100 pl-20 pr-20 w-full">
+          <div
+            style={{
+              paddingLeft: `${layout.list_px}px`,
+              paddingRight: `${layout.toc_px}px`,
+            }}
+            className="bg-yellow-100 pr-20 w-full"
+          >
             <ArticleContent content={props.content} />
           </div>
-          <div className="h-screen fixed bg-gray-100 w-20 right-0">
+          <div
+            style={{ width: `${layout.toc_px}px` }}
+            className="h-screen fixed bg-gray-100 right-0"
+          >
             <ArticleToc toc={props.toc} />
-            <div id="toc-resize-handler"></div>
+            <Draggable axis="x" onDrag={dragToc}>
+              <div
+                id="toc-resize-handler"
+                style={{ cursor: 'move', right: '300px', width: '5px' }}
+                className="absolute top-0 bottom-0 h-screen fixed"
+              ></div>
+            </Draggable>
           </div>
         </div>
       </main>
