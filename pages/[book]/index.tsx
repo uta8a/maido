@@ -1,6 +1,6 @@
 import { GetStaticPaths, NextPage, GetStaticProps } from 'next';
 import Head from 'next/head';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ArticleLayout, IndexRaw } from '../../utils/types';
 import path from 'path';
 import { documentRoot } from '../../utils/constants';
