@@ -28,12 +28,9 @@ const defaultLayout: ArticleLayout = {
 const ArticlePage: NextPage<Props> = (props: Props) => {
   const [layout, setLayout] = useState<ArticleLayout>(defaultLayout);
   const dragList = (e: DraggableEvent, data: DraggableData) => {
-    console.log('data', data);
     setLayout({ list_px: 305 + data.x, toc_px: layout.toc_px });
   };
   const dragToc = (e: DraggableEvent, data: DraggableData) => {
-    console.log(window.innerWidth, data.x + data.deltaX);
-    console.log('data', data, layout.toc_px);
     setLayout({ list_px: layout.list_px, toc_px: 305 - data.x });
   };
   return (
