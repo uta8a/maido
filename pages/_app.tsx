@@ -3,6 +3,7 @@ import React from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import 'tailwindcss/tailwind.css';
+import '../styles/article.css';
 
 const MyApp: NextPage<AppProps> = ({ Component, pageProps }: AppProps) => {
   return (

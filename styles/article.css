@@ -1,0 +1,31 @@
+.maido-list ol,
+ul {
+  list-style: decimal;
+  list-style-type: decimal;
+  list-style-position: inside;
+  margin: 0;
+  padding-left: 10px;
+}
+
+.maido-list ol,
+ul {
+  counter-reset: item;
+}
+
+.maido-list li {
+  display: block;
+}
+
+.maido-list li:before {
+  content: counters(item, '.') '. ';
+  counter-increment: item;
+}
+
+.maido-toc ol,
+ul {
+  list-style: '#';
+  list-style-type: '#';
+  list-style-position: inside;
+  margin: 0;
+  padding-left: 10px;
+}
