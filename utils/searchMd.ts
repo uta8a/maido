@@ -1,6 +1,5 @@
 import path from 'path';
 import fs from 'fs';
-import { IndexRaw } from './types';
 import matter from 'gray-matter';
 import toml from 'toml';
 

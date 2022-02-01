@@ -27,10 +27,10 @@ const defaultLayout: ArticleLayout = {
 
 const ArticlePage: NextPage<Props> = (props: Props) => {
   const [layout, setLayout] = useState<ArticleLayout>(defaultLayout);
-  const dragList = (e: DraggableEvent, data: DraggableData) => {
+  const dragList = (_e: DraggableEvent, data: DraggableData) => {
     setLayout({ list_px: 300 + data.x, toc_px: layout.toc_px });
   };
-  const dragToc = (e: DraggableEvent, data: DraggableData) => {
+  const dragToc = (_e: DraggableEvent, data: DraggableData) => {
     setLayout({ list_px: layout.list_px, toc_px: 300 - data.x });
   };
   return (
