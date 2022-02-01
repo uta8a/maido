@@ -46,7 +46,7 @@ const ArticlePage: NextPage<Props> = (props: Props) => {
             className="h-screen fixed bg-gray-100"
           >
             <ArticleList list={props.list} />
-            <Draggable axis="x" onDrag={dragList}>
+            <Draggable axis="x" onDrag={dragList} bounds={{ left: 100 }}>
               <div
                 id="list-resize-handler"
                 style={{ cursor: 'move', left: '295px', width: '5px' }}
@@ -68,7 +68,7 @@ const ArticlePage: NextPage<Props> = (props: Props) => {
             className="h-screen fixed bg-gray-100 right-0"
           >
             <ArticleToc toc={props.toc} />
-            <Draggable axis="x" onDrag={dragToc}>
+            <Draggable axis="x" onDrag={dragToc} bounds={{ right: 100 }}>
               <div
                 id="toc-resize-handler"
                 style={{ cursor: 'move', right: '295px', width: '5px' }}
