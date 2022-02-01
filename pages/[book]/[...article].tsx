@@ -1,14 +1,18 @@
 import { GetStaticPaths, NextPage, GetStaticProps } from 'next';
 import Head from 'next/head';
 import styles from '../../styles/Home.module.css';
-import React from 'react';
-import { IndexRaw } from '../../utils/types';
+import React, { useState } from 'react';
+import { ArticleLayout, IndexRaw } from '../../utils/types';
 import path from 'path';
 import { documentRoot } from '../../utils/constants';
 import { getArticleList } from '../../utils/getArticleList';
 import { makeArticleToc } from '../../utils/makeArticleToc';
 import { makeArticleContent } from '../../utils/makeArticleContent';
 import { searchMd } from '../../utils/searchMd';
+import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
+import { ArticleToc } from '@/components/ArticleToc';
+import { ArticleContent } from '@/components/ArticleContent';
+import { ArticleList } from '@/components/ArticleList';
 
 type Props = {
   meta: IndexRaw;
@@ -17,32 +21,63 @@ type Props = {
   toc: string;
 };
 
+const defaultLayout: ArticleLayout = {
+  list_px: 300, // 5: list-resize-handler width
+  toc_px: 300,
+};
+
 const BookPage: NextPage<Props> = (props: Props) => {
+  const [layout, setLayout] = useState<ArticleLayout>(defaultLayout);
+  const dragList = (_e: DraggableEvent, data: DraggableData) => {
+    setLayout({ list_px: 300 + data.x, toc_px: layout.toc_px });
+  };
+  const dragToc = (_e: DraggableEvent, data: DraggableData) => {
+    setLayout({ list_px: layout.list_px, toc_px: 300 - data.x });
+  };
   return (
-    <div className={styles.container}>
+    <div className="">
       <Head>
         <title>{props.meta.title}</title>
       </Head>
 
-      <main className={styles.main}>
-        <div
-          className="maido-list"
-          dangerouslySetInnerHTML={{
-            __html: props.list || 'No list.',
-          }}
-        />
-        <div
-          className="maido-content"
-          dangerouslySetInnerHTML={{
-            __html: props.content || 'No content.',
-          }}
-        />
-        <div
-          className="maido-toc"
-          dangerouslySetInnerHTML={{
-            __html: props.toc || 'No toc.',
-          }}
-        />
+      <main className="">
+        <div className="flex">
+          <div
+            style={{ width: `${layout.list_px}px` }}
+            className="h-screen fixed bg-gray-100"
+          >
+            <ArticleList list={props.list} />
+            <Draggable axis="x" onDrag={dragList} bounds={{ left: -100 }}>
+              <div
+                id="list-resize-handler"
+                style={{ cursor: 'move', left: '295px', width: '5px' }}
+                className="absolute top-0 bottom-0 h-screen fixed"
+              ></div>
+            </Draggable>
+          </div>
+          <div
+            style={{
+              paddingLeft: `${layout.list_px}px`,
+              paddingRight: `${layout.toc_px}px`,
+            }}
+            className="bg-yellow-100 pr-20 w-full"
+          >
+            <ArticleContent content={props.content} />
+          </div>
+          <div
+            style={{ width: `${layout.toc_px}px` }}
+            className="h-screen fixed bg-gray-100 right-0"
+          >
+            <ArticleToc toc={props.toc} />
+            <Draggable axis="x" onDrag={dragToc} bounds={{ right: 100 }}>
+              <div
+                id="toc-resize-handler"
+                style={{ cursor: 'move', right: '295px', width: '5px' }}
+                className="absolute top-0 bottom-0 h-screen fixed"
+              ></div>
+            </Draggable>
+          </div>
+        </div>
       </main>
     </div>
   );
