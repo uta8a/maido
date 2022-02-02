@@ -50,3 +50,10 @@ export type ArticleLayout = {
   list_px: number;
   toc_px: number;
 };
+
+export type ArticleProps = {
+  meta: IndexRaw;
+  list: string;
+  content: string;
+  toc: string;
+};

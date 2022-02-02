@@ -1,9 +1,10 @@
 :root {
-  --main-bg-gradient: linear-gradient(
+  --maido-bg-gradient: linear-gradient(
     90deg,
     rgb(230, 191, 253),
     rgba(226, 207, 255, 0.4)
   );
+  --maido-anchor-color: rgba(0, 51, 102, 0.6);
 }
 .maido-list ol,
 ul {
@@ -38,5 +39,23 @@ ul {
 }
 
 .Z-bookcard-div:hover {
-  background-image: var(--main-bg-gradient);
+  background-image: var(--maido-bg-gradient);
+}
+
+.maido-content h1 h2 {
+  margin-top: 2.3em;
+  margin-bottom: 0.5em;
+}
+
+.maido-content h1 {
+  font-size: 1.7em;
+}
+
+.maido-content h2 {
+  font-size: 1.5em;
+}
+
+.maido-content .header-anchor {
+  color: var(--maido-anchor-color);
+  text-decoration: underline;
 }
