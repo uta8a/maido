@@ -44,7 +44,7 @@ export const getStaticProps: GetStaticProps<ArticleProps> = async ({
         ? params.book
         : ''
       : '';
-  const bookPath = path.join(process.cwd(), 'content', bookBasePath);
+  const bookPath = path.join(process.cwd(), documentRoot, bookBasePath);
   const articleName = 'index.md';
   // articlelistの生成(toc.md): Htmlを返す
   const articleList = await getArticleList(bookPath);

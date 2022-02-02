@@ -1,6 +1,6 @@
 import { GetStaticPaths, NextPage, GetStaticProps } from 'next';
 import React from 'react';
-import { ArticleLayout, ArticleProps } from '../../utils/types';
+import { ArticleProps } from '../../utils/types';
 import path from 'path';
 import { documentRoot } from '../../utils/constants';
 import { getArticleList } from '../../utils/getArticleList';
@@ -45,10 +45,10 @@ export const getStaticProps: GetStaticProps<ArticleProps> = async ({
         ? path.join(...params.article)
         : ''
       : '';
-  const bookPath = path.join(process.cwd(), 'content', bookBasePath);
+  const bookPath = path.join(process.cwd(), documentRoot, bookBasePath);
   const articlePath = path.join(
     process.cwd(),
-    'content',
+    documentRoot,
     bookBasePath,
     articleBasePath + '.md',
   );
