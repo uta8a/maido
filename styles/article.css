@@ -1,3 +1,10 @@
+:root {
+  --main-bg-gradient: linear-gradient(
+    90deg,
+    rgb(230, 191, 253),
+    rgba(226, 207, 255, 0.4)
+  );
+}
 .maido-list ol,
 ul {
   list-style: decimal;
@@ -28,4 +35,8 @@ ul {
   list-style-position: inside;
   margin: 0;
   padding-left: 10px;
+}
+
+.Z-bookcard-div:hover {
+  background-image: var(--main-bg-gradient);
 }
