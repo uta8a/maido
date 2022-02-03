@@ -63,7 +63,7 @@ fn main() {
 
 以下のようなエラーが出たと思います。
 
-```
+```none
    Compiling playground v0.0.1 (/playground)
 error[E0384]: cannot assign twice to immutable variable `x`
  --> src/main.rs:4:5

@@ -98,7 +98,7 @@ const Article: NextPage<ArticleProps> = (props: ArticleProps) => {
             }}
             className="w-full h-screen"
           >
-            <div className="w-full relative flex space-x-4 justify-center">
+            <div className="w-full relative flex space-x-4 justify-center pb-5">
               <div className="pl-2 pt-7 left-0">
                 <button
                   className="font-medium"
@@ -108,11 +108,11 @@ const Article: NextPage<ArticleProps> = (props: ArticleProps) => {
                 </button>
               </div>
               <div className="w-full text-center pt-5">
-                <Link href="/">
-                  <a>
-                    <h1 className="text-3xl underline">{props.projectTitle}</h1>
-                  </a>
-                </Link>
+                <h1 className="text-3xl underline">
+                  <Link href="/">
+                    <a>{props.projectTitle}</a>
+                  </Link>
+                </h1>
               </div>
               <div className="pr-2 pt-7 right-0">
                 <button
