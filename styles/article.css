@@ -97,11 +97,6 @@
   padding-left: 10px;
 }
 
-.maido-content pre {
-  padding-top: 1em;
-  padding-bottom: 500px;
-}
-
 .maido-content h1,
 .maido-content h2,
 .maido-content h3,
@@ -109,6 +104,9 @@
 .maido-content h5,
 .maido-content h6,
 .maido-content p,
+.maido-content ul,
+.maido-content li,
 .maido-content span {
   overflow-wrap: break-word;
+  line-height: 1.6;
 }
