@@ -6,12 +6,22 @@ import { ArticleList } from '@/components/ArticleList';
 import { ArticleToc } from '@/components/ArticleToc';
 import { ArticleContent } from '@/components/ArticleContent';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
+import Link from 'next/link';
+import Image from 'next/image';
 
 const defaultLayout: ArticleLayout = {
   list_px: 300, // 5: list-resize-handler width
   list_display: 'block',
   toc_px: 300,
   toc_display: 'block',
+};
+
+const Right = (): JSX.Element => {
+  return <Image src="/right-arrow.svg" alt="toggle" width={30} height={30} />;
+};
+
+const Left = (): JSX.Element => {
+  return <Image src="/left-arrow.svg" alt="toggle" width={30} height={30} />;
 };
 
 const Article: NextPage<ArticleProps> = (props: ArticleProps) => {
@@ -84,19 +94,31 @@ const Article: NextPage<ArticleProps> = (props: ArticleProps) => {
             }}
             className="w-full h-screen"
           >
-            <button
-              className="font-medium"
-              onClick={(_event) => setOpenList(!openList)}
-            >
-              {openList ? '→' : '←'}
-            </button>
-            <button
-              style={{ right: 0 }}
-              className="font-medium"
-              onClick={(_event) => setOpenToc(!openToc)}
-            >
-              {openToc ? '←' : '→'}
-            </button>
+            <div className="w-full relative flex space-x-4 justify-center">
+              <div className="pl-2 pt-7 left-0">
+                <button
+                  className="font-medium"
+                  onClick={(_event) => setOpenList(!openList)}
+                >
+                  {openList ? <Right /> : <Left />}
+                </button>
+              </div>
+              <div className="w-full text-center pt-5">
+                <Link href="/">
+                  <a>
+                    <h1 className="text-3xl underline">{props.projectTitle}</h1>
+                  </a>
+                </Link>
+              </div>
+              <div className="pr-2 pt-7 right-0">
+                <button
+                  className="text-xl"
+                  onClick={(_event) => setOpenToc(!openToc)}
+                >
+                  {openToc ? <Left /> : <Right />}
+                </button>
+              </div>
+            </div>
             <ArticleContent content={props.content} />
           </div>
           <div

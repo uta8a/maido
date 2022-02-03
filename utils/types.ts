@@ -54,6 +54,7 @@ export type ArticleLayout = {
 };
 
 export type ArticleProps = {
+  projectTitle: string;
   meta: IndexRaw;
   list: string;
   content: string;

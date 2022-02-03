@@ -8,10 +8,12 @@ import { makeArticleToc } from '../../utils/makeArticleToc';
 import { makeArticleContent } from '../../utils/makeArticleContent';
 import { walkDir } from '../../utils/getBooks';
 import { Article } from '@/components/Article';
+import { getProjectTitle } from 'utils/getMetadata';
 
 const ArticlePage: NextPage<ArticleProps> = (props: ArticleProps) => {
   return (
     <Article
+      projectTitle={props.projectTitle}
       meta={props.meta}
       list={props.list}
       content={props.content}
@@ -63,8 +65,11 @@ export const getStaticProps: GetStaticProps<ArticleProps> = async ({
   const contentHtml = articleContent[1];
   const tocHtml = articleToc[1];
 
+  const projectTitle = getProjectTitle(process.cwd());
+
   return {
     props: {
+      projectTitle: projectTitle,
       meta: metadata,
       list: listHtml,
       content: contentHtml,
