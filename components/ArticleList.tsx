@@ -6,7 +6,7 @@ type Props = {
 
 const ArticleList: FunctionComponent<Props> = (props: Props) => {
   return (
-    <div
+    <nav
       className="maido-list pt-5 pl-3"
       dangerouslySetInnerHTML={{
         __html: props.list || '<div>No list.</div>',
