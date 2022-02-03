@@ -48,7 +48,9 @@ export type StringBook = {
 
 export type ArticleLayout = {
   list_px: number;
+  list_display: string;
   toc_px: number;
+  toc_display: string;
 };
 
 export type ArticleProps = {

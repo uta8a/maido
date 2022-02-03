@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArticleLayout, ArticleProps } from '../utils/types';
 import { ArticleList } from '@/components/ArticleList';
 import { ArticleToc } from '@/components/ArticleToc';
@@ -9,17 +9,50 @@ import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 
 const defaultLayout: ArticleLayout = {
   list_px: 300, // 5: list-resize-handler width
+  list_display: 'block',
   toc_px: 300,
+  toc_display: 'block',
 };
 
 const Article: NextPage<ArticleProps> = (props: ArticleProps) => {
+  // layout
   const [layout, setLayout] = useState<ArticleLayout>(defaultLayout);
   const dragList = (_e: DraggableEvent, data: DraggableData) => {
-    setLayout({ list_px: 300 + data.x, toc_px: layout.toc_px });
+    const { list_px, ...restLayout } = layout;
+    setLayout({ list_px: list_px + data.deltaX, ...restLayout });
   };
   const dragToc = (_e: DraggableEvent, data: DraggableData) => {
-    setLayout({ list_px: layout.list_px, toc_px: 300 - data.x });
+    const { toc_px, ...restLayout } = layout;
+    setLayout({ toc_px: toc_px - data.deltaX, ...restLayout });
   };
+  // toggle list, toc
+  const [openList, setOpenList] = useState(false);
+  const [openToc, setOpenToc] = useState(false);
+  useEffect(() => {
+    if (openList) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { list_display, ...restLayout } = layout;
+      setLayout({ list_display: 'none', ...restLayout });
+    }
+    if (!openList) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { list_display, ...restLayout } = layout;
+      setLayout({ list_display: 'block', ...restLayout });
+    }
+  }, [openList]);
+  useEffect(() => {
+    if (openToc) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { toc_display, ...restLayout } = layout;
+      setLayout({ toc_display: 'none', ...restLayout });
+    }
+    if (!openToc) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { toc_display, ...restLayout } = layout;
+      setLayout({ toc_display: 'block', ...restLayout });
+    }
+  }, [openToc]);
+
   return (
     <div className="">
       <Head>
@@ -29,7 +62,10 @@ const Article: NextPage<ArticleProps> = (props: ArticleProps) => {
       <main className="">
         <div className="flex">
           <div
-            style={{ width: `${layout.list_px}px` }}
+            style={{
+              width: `${layout.list_px}px`,
+              display: layout.list_display,
+            }}
             className="h-screen fixed bg-gray-100"
           >
             <ArticleList list={props.list} />
@@ -37,21 +73,34 @@ const Article: NextPage<ArticleProps> = (props: ArticleProps) => {
               <div
                 id="list-resize-handler"
                 style={{ cursor: 'move', left: '295px', width: '5px' }}
-                className="absolute top-0 bottom-0 h-screen fixed"
+                className="top-0 bottom-0 h-screen fixed"
               ></div>
             </Draggable>
           </div>
           <div
             style={{
-              paddingLeft: `${layout.list_px}px`,
-              paddingRight: `${layout.toc_px}px`,
+              paddingLeft: `${openList ? 100 : layout.list_px}px`,
+              paddingRight: `${openToc ? 100 : layout.toc_px}px`,
             }}
             className="w-full h-screen"
           >
+            <button
+              className="font-medium"
+              onClick={(_event) => setOpenList(!openList)}
+            >
+              {openList ? '→' : '←'}
+            </button>
+            <button
+              style={{ right: 0 }}
+              className="font-medium"
+              onClick={(_event) => setOpenToc(!openToc)}
+            >
+              {openToc ? '←' : '→'}
+            </button>
             <ArticleContent content={props.content} />
           </div>
           <div
-            style={{ width: `${layout.toc_px}px` }}
+            style={{ width: `${layout.toc_px}px`, display: layout.toc_display }}
             className="h-screen fixed bg-gray-100 right-0"
           >
             <ArticleToc toc={props.toc} />
