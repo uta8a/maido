@@ -6,8 +6,9 @@
   );
   --maido-anchor-color: rgba(0, 51, 102, 0.6);
 }
+
 .maido-list ol,
-ul {
+.maido-list ul {
   list-style: decimal;
   list-style-type: decimal;
   list-style-position: inside;
@@ -16,7 +17,7 @@ ul {
 }
 
 .maido-list ol,
-ul {
+.maido-list ul {
   counter-reset: item;
 }
 
@@ -30,7 +31,7 @@ ul {
 }
 
 .maido-toc ol,
-ul {
+.maido-toc ul {
   list-style: '#';
   list-style-type: '#';
   list-style-position: inside;
@@ -43,7 +44,7 @@ ul {
 }
 
 .maido-content h1 h2 {
-  margin-top: 2.3em;
+  margin-top: 1.5em;
   margin-bottom: 0.5em;
 }
 
@@ -58,4 +59,22 @@ ul {
 .maido-content .header-anchor {
   color: var(--maido-anchor-color);
   text-decoration: underline;
+}
+
+.maido-content i,
+.maido-content cite,
+.maido-content em {
+  font-style: italic;
+}
+.maido-content strong {
+  font-weight: 700;
+}
+.maido-content a {
+  color: #4a5cff;
+}
+.maido-content a:hover {
+  text-decoration: underline;
+}
+.maido-content p + p {
+  margin-top: 1.5em;
 }

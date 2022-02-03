@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "next": "12",
+    "prismjs": "^1.26.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
@@ -31,10 +32,12 @@
     "@types/jest": "^27.4.0",
     "@types/markdown-it": "^12.2.3",
     "@types/node": "^17.0.13",
+    "@types/prismjs": "^1.26.0",
     "@types/react": "^17.0.14",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
     "autoprefixer": "^10.4.2",
+    "babel-plugin-prismjs": "^2.1.0",
     "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",

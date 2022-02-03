@@ -8,6 +8,7 @@ import { ArticleContent } from '@/components/ArticleContent';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import Link from 'next/link';
 import Image from 'next/image';
+import Prism from 'prismjs';
 
 const defaultLayout: ArticleLayout = {
   list_px: 300, // 5: list-resize-handler width
@@ -25,6 +26,9 @@ const Left = (): JSX.Element => {
 };
 
 const Article: NextPage<ArticleProps> = (props: ArticleProps) => {
+  useEffect(() => {
+    Prism.highlightAll();
+  });
   // layout
   const [layout, setLayout] = useState<ArticleLayout>(defaultLayout);
   const dragList = (_e: DraggableEvent, data: DraggableData) => {
