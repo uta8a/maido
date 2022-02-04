@@ -15,6 +15,7 @@ test('check nested book', () => {
     expect(data).toEqual(
       [
         'a/b/c/test-data.md',
+        'dir-index/index.md',
         'index.md',
         'real-test.md',
         'test-article.md',
