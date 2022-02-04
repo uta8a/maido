@@ -3,24 +3,32 @@ import fs from 'fs';
 import matter from 'gray-matter';
 import toml from 'toml';
 
-const sync = () => {
+const sync = async () => {
   const rootPath = path.join(process.cwd(), process.env.DOCUMENT_ROOT);
   const availableDirs = await searchAvailableDir(rootPath);
-  copyAssets(availableDirs);
+  copyAssets(rootPath, availableDirs);
 };
 
 // content -> public
-const copyAssets = (dirs) => {
+const copyAssets = async (rootPath, dirs) => {
   for (const dir of dirs) {
     const dirPath = path.dirname(dir);
     try {
       const dirents = await fs.readdirSync(dirPath, { withFileTypes: true });
+      await fs.mkdirSync(path.join(process.cwd(), '../public', dirPath.slice(rootPath.length)), { recursive: true });
       for (const dirent of dirents) {
         if (!dirent.isDirectory() && !checkMd(dirent.name)) {
+          const srcPath = path.join(dirPath, dirent.name);
+          const destPath = path.join(process.cwd(), '../public', dirPath.slice(rootPath.length), dirent.name);
           fs.copyFile(
-            path.join(dirPath, dirent.name),
-            path.join(process.cwd(), 'public', dirPath, dirent.name),
+            srcPath,
+            destPath,
+            (err) => {
+              // ignore error
+            },
           );
+          console.log(srcPath);
+          console.log(destPath);
         }
       }
     } catch {
