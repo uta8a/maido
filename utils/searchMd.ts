@@ -54,4 +54,16 @@ const getDraft = (str: string): boolean => {
   return rawData.data.draft;
 };
 
-export { searchMd, checkMd };
+const isDirectory = async (filePath: string): Promise<boolean> => {
+  try {
+    const dirent = fs.statSync(filePath);
+    if (dirent.isDirectory()) {
+      return true;
+    }
+    return false;
+  } catch {
+    return false;
+  }
+};
+
+export { searchMd, checkMd, isDirectory };

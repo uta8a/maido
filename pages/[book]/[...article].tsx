@@ -6,7 +6,7 @@ import { documentRoot } from '../../utils/constants';
 import { getArticleList } from '../../utils/getArticleList';
 import { makeArticleToc } from '../../utils/makeArticleToc';
 import { makeArticleContent } from '../../utils/makeArticleContent';
-import { searchMd } from '../../utils/searchMd';
+import { isDirectory, searchMd } from '../../utils/searchMd';
 import { Article } from '@/components/Article';
 import { getProjectTitle } from 'utils/getMetadata';
 
@@ -27,7 +27,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const rawPaths = await searchMd(rootPath);
   // paths needs prefix `/`, trim unnecessary prefix and postfix `.md`
   const paths = rawPaths.map((rawPath) => {
-    return path.join('/', rawPath.slice(rootPath.length, -3));
+    const basePath = rawPath.slice(rootPath.length);
+    if (
+      basePath.split('/').length > 3 &&
+      path.basename(rawPath) === 'index.md'
+    ) {
+      return rawPath.slice(rootPath.length, -9);
+    }
+    return rawPath.slice(rootPath.length, -3);
   });
   return { paths, fallback: false };
 };
@@ -48,12 +55,13 @@ export const getStaticProps: GetStaticProps<ArticleProps> = async ({
         : ''
       : '';
   const bookPath = path.join(process.cwd(), documentRoot, bookBasePath);
-  const articlePath = path.join(
-    process.cwd(),
-    documentRoot,
-    bookBasePath,
-    articleBasePath + '.md',
-  );
+  const articleRawPath = path.join(bookPath, articleBasePath);
+  let articlePath;
+  if (await isDirectory(articleRawPath)) {
+    articlePath = path.join(articleRawPath, 'index.md');
+  } else {
+    articlePath = articleRawPath + '.md';
+  }
   // articlelistの生成(toc.md): Htmlを返す
   const articleList = await getArticleList(bookPath);
 
