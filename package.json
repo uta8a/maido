@@ -10,7 +10,8 @@
     "lint": "eslint '__tests__/{**/,**/**/}*.ts{,x}' 'pages/{**/,**/**/}*.ts{,x}' 'utils/{**/,**/**/}*.ts{,x}'",
     "test": "jest",
     "format": "prettier --write {**/,**/**/}*.{css,js,json,ts,tsx}",
-    "export": "next export"
+    "export": "next export",
+    "cli-sync": "node cli/sync.js"
   },
   "husky": {
     "hooks": {
