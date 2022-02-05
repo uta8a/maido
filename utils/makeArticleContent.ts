@@ -94,8 +94,8 @@ const filterPathMd = (bookPath: string, src: string) => {
     return src;
   } else if (/^#/.test(src)) {
     return src;
-  } else if (/\.\/index\.md/.test(src) || src === 'index.md') {
-    return path.join('/', bookPath, '/');
+  } else if (path.basename(src) === 'index.md') {
+    return path.join('/', bookPath, path.dirname(src));
   } else if (/\.\//.test(src)) {
     return path.join('/', path.dirname(bookPath), src.slice(2, -3), '/');
   } else {
