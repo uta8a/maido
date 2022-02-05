@@ -83,9 +83,9 @@ const filterPathImage = (bookPath: string, src: string) => {
   if (/^http/.test(src)) {
     return src;
   } else if (/\.\//.test(src)) {
-    return path.join('/', bookPath, src.substring(2));
+    return path.join('/', path.dirname(bookPath), src.substring(2));
   } else {
-    return path.join('/', bookPath, src);
+    return path.join('/', path.dirname(bookPath), src);
   }
 };
 
@@ -97,9 +97,9 @@ const filterPathMd = (bookPath: string, src: string) => {
   } else if (/\.\/index\.md/.test(src) || src === 'index.md') {
     return path.join('/', bookPath, '/');
   } else if (/\.\//.test(src)) {
-    return path.join('/', bookPath, src.slice(2, -3), '/');
+    return path.join('/', path.dirname(bookPath), src.slice(2, -3), '/');
   } else {
-    return path.join('/', bookPath, src.slice(0, -3), '/');
+    return path.join('/', path.dirname(bookPath), src.slice(0, -3), '/');
   }
 };
 
