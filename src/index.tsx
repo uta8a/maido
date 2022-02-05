@@ -4,6 +4,7 @@ import './style/main.scss';
 import { AppPage } from '@/App';
 import { HomePage } from './pages';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import books from 'data/book.json';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -13,14 +14,7 @@ ReactDOM.render(
         path="/"
         element={
           <HomePage
-            books={[
-              {
-                title: 'book!',
-                image_path: '/',
-                date: '2022-01-18T05:28:15+09:00',
-                book_path: '/',
-              },
-            ]}
+            books={books.data}
             projectTitle="title!"
           />
         }
