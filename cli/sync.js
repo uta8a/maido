@@ -15,18 +15,22 @@ const copyAssets = async (rootPath, dirs) => {
     const dirPath = path.dirname(dir);
     try {
       const dirents = await fs.readdirSync(dirPath, { withFileTypes: true });
-      await fs.mkdirSync(path.join(process.cwd(), '../public', dirPath.slice(rootPath.length)), { recursive: true });
+      await fs.mkdirSync(
+        path.join(process.cwd(), '../public', dirPath.slice(rootPath.length)),
+        { recursive: true },
+      );
       for (const dirent of dirents) {
         if (!dirent.isDirectory() && !checkMd(dirent.name)) {
           const srcPath = path.join(dirPath, dirent.name);
-          const destPath = path.join(process.cwd(), '../public', dirPath.slice(rootPath.length), dirent.name);
-          fs.copyFile(
-            srcPath,
-            destPath,
-            (err) => {
-              // ignore error
-            },
+          const destPath = path.join(
+            process.cwd(),
+            '../public',
+            dirPath.slice(rootPath.length),
+            dirent.name,
           );
+          fs.copyFile(srcPath, destPath, (err) => {
+            // ignore error
+          });
           console.log(srcPath);
           console.log(destPath);
         }
