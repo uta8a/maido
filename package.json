@@ -3,7 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "scripts": {
+    "precommit": "prettier --write {**/,**/**/}*.{css,js,json,ts,tsx}",
+    "lint": "eslint '__tests__/{**/,**/**/}*.ts{,x}' 'pages/{**/,**/**/}*.ts{,x}' 'utils/{**/,**/**/}*.ts{,x}'",
+    "format": "prettier --write {**/,**/**/}*.{css,js,json,ts,tsx}",
     "watch": "run-p watch:*",
     "watch:build": "NODE_ENV=\\\"development\\\" ts-node ./build.ts",
     "watch:serve": "wait-on public/index.js && reload -d public -b"
@@ -28,10 +36,18 @@
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
     "@types/sass": "^1.43.1",
+    "@typescript-eslint/eslint-plugin": "^5.10.2",
+    "@typescript-eslint/parser": "^5.10.2",
     "dayjs": "^1.10.7",
     "esbuild": "^0.14.18",
     "esbuild-plugin-sass": "^1.0.1",
+    "eslint": "^8.8.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.28.0",
+    "husky": "^7.0.4",
     "npm-run-all": "^4.1.5",
+    "prettier": "^2.5.1",
     "reload": "^3.2.0",
     "sass": "^1.49.7",
     "ts-node": "^10.4.0",

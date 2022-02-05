@@ -1,16 +1,16 @@
-import { serve, build } from "esbuild";
+import { serve, build } from 'esbuild';
 // import { sassPlugin } from "./plugin/esbuild-plugin-sass";
 import path from 'path';
-import sassPlugin from "esbuild-plugin-sass";
+import sassPlugin from 'esbuild-plugin-sass';
 
 const isDev = process.env.NODE_ENV === '"development"';
 
 build({
-  define: { "process.env.NODE_ENV": process.env.NODE_ENV as string },
-  target: "es2015",
-  platform: "browser",
+  define: { 'process.env.NODE_ENV': process.env.NODE_ENV as string },
+  target: 'es2015',
+  platform: 'browser',
   entryPoints: [path.resolve(__dirname, 'src/index.tsx')],
-  outdir: "public",
+  outdir: 'public',
   bundle: true,
   minify: !isDev,
   sourcemap: isDev,
@@ -22,9 +22,11 @@ build({
       console.log(JSON.stringify(result?.warnings));
     },
   },
-}).then(() => {
-  console.log("===========================================");
-  console.log(`${new Date().toLocaleString()}: watching...`);
-}).catch((err) => console.log(`Error: ${JSON.stringify(err)}`));
+})
+  .then(() => {
+    console.log('===========================================');
+    console.log(`${new Date().toLocaleString()}: watching...`);
+  })
+  .catch((err) => console.log(`Error: ${JSON.stringify(err)}`));
 
-serve
+serve;
