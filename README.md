@@ -8,11 +8,15 @@ DOCUMENT_ROOT=../../../../path/to/content yarn dev
 
 # 開発中の画面
 
-Books
-![image-1](https://user-images.githubusercontent.com/31395466/151989014-c72124e7-3c07-49b8-a763-298a5119eedd.png)
 
-Article
-![image-2](https://user-images.githubusercontent.com/31395466/151988822-cde7b420-2d31-4907-9c9a-0add6c237a42.png)
+project
+
+![Image-1](https://user-images.githubusercontent.com/31395466/152650879-1b961863-6b0d-41cf-878a-bd212121e7ab.png)
+
+article
+
+![Image-2](https://user-images.githubusercontent.com/31395466/152650877-095111b1-b2c6-4885-b629-2e382d6a090e.png)
+
 # dev
 
 ```
