@@ -1,0 +1,41 @@
+{
+  "name": "maido",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "run-p watch:*",
+    "watch:build": "NODE_ENV=\\\"development\\\" ts-node ./build.ts",
+    "watch:serve": "wait-on public/index.js && reload -d public -b"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/uta8a/maido.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/uta8a/maido/issues"
+  },
+  "homepage": "https://github.com/uta8a/maido#readme",
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.15",
+    "@types/react": "^17.0.39",
+    "@types/react-dom": "^17.0.11",
+    "@types/sass": "^1.43.1",
+    "dayjs": "^1.10.7",
+    "esbuild": "^0.14.18",
+    "esbuild-plugin-sass": "^1.0.1",
+    "npm-run-all": "^4.1.5",
+    "reload": "^3.2.0",
+    "sass": "^1.49.7",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.5",
+    "wait-on": "^6.0.0"
+  }
+}
