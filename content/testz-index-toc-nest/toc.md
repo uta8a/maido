@@ -7,3 +7,4 @@ image_path = "./thumbnail-nest.png"
 - [abc](./a/b/c/test-data.md)
   - [Rustを学ぼう](./real-test.md)
 - [private(not found)](./private/test-draft.md)
+- [dir-index/index.md](./dir-index/index.md)
