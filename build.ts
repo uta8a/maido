@@ -1,7 +1,7 @@
-import { serve, build } from 'esbuild';
-// import { sassPlugin } from "./plugin/esbuild-plugin-sass";
+import { build } from 'esbuild';
 import path from 'path';
 import sassPlugin from 'esbuild-plugin-sass';
+import postcss from 'esbuild-postcss';
 
 const isDev = process.env.NODE_ENV === '"development"';
 
@@ -15,7 +15,7 @@ build({
   minify: !isDev,
   sourcemap: isDev,
   treeShaking: true,
-  plugins: [sassPlugin()],
+  plugins: [sassPlugin(), postcss()],
   watch: {
     onRebuild(err, result) {
       console.log(JSON.stringify(err?.errors));
@@ -28,5 +28,3 @@ build({
     console.log(`${new Date().toLocaleString()}: watching...`);
   })
   .catch((err) => console.log(`Error: ${JSON.stringify(err)}`));
-
-serve;
