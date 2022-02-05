@@ -6,10 +6,12 @@ import MarkdownIt from 'markdown-it';
 import { DOMParser } from 'linkedom';
 import { IndexRaw } from './types';
 import markdownItAnchor from 'markdown-it-anchor';
+import { documentRoot } from './constants';
 
 const makeArticleContent = async (
   articlePath: string,
 ): Promise<[IndexRaw, string]> => {
+  const rootPath = path.join(process.cwd(), documentRoot);
   const md = new MarkdownIt({
     breaks: true,
   });
@@ -24,10 +26,10 @@ const makeArticleContent = async (
   const articleHtml = md.render(content);
   const document = domParser.parseFromString(articleHtml, 'text/html');
   document.querySelectorAll('img').forEach((image_path) => {
-    image_path.src = filterPathImage(articlePath, image_path.src);
+    image_path.src = filterPathImage(articlePath.slice(rootPath.length), image_path.src);
   });
   document.querySelectorAll('a').forEach((link) => {
-    link.href = filterPathMd(path.basename(articlePath), link.href);
+    link.href = filterPathMd(articlePath.slice(rootPath.length), link.href);
   });
   const articleContent = document.toString();
   return [meta, articleContent];
@@ -81,9 +83,9 @@ const filterPathImage = (bookPath: string, src: string) => {
   if (/^http/.test(src)) {
     return src;
   } else if (/\.\//.test(src)) {
-    return path.join('/', 'assets', bookPath, src.substring(2));
+    return path.join('/', bookPath, src.substring(2));
   } else {
-    return path.join('/', 'assets', bookPath, src);
+    return path.join('/', bookPath, src);
   }
 };
 
