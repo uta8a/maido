@@ -12,12 +12,7 @@ ReactDOM.render(
       <Route path="/app" element={<AppPage />} />
       <Route
         path="/"
-        element={
-          <HomePage
-            books={books.data}
-            projectTitle="title!"
-          />
-        }
+        element={<HomePage books={books.data} projectTitle="title!" />}
       />
     </Routes>
   </BrowserRouter>,
