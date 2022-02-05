@@ -9,9 +9,9 @@
     }
   },
   "scripts": {
-    "precommit": "prettier --write {**/,**/**/}*.{css,js,json,ts,tsx}",
+    "precommit": "prettier --write {**/,**/**/}*.{scss,css,js,json,ts,tsx}",
     "lint": "eslint '__tests__/{**/,**/**/}*.ts{,x}' 'pages/{**/,**/**/}*.ts{,x}' 'utils/{**/,**/**/}*.ts{,x}'",
-    "format": "prettier --write {**/,**/**/}*.{css,js,json,ts,tsx}",
+    "format": "prettier --write {**/,**/**/}*.{scss,css,js,json,ts,tsx}",
     "watch": "run-p watch:*",
     "watch:build": "NODE_ENV=\\\"development\\\" ts-node ./build.ts",
     "watch:serve": "wait-on public/index.js && reload -d public -b"
