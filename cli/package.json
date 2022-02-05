@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "toml": "^3.0.0",
+    "gray-matter": "^4.0.3"
+  },
+  "scripts": {
+    "cli-sync": "node sync.js",
+    "cli-new": "node new.js",
+    "cli-project": "node project.js"
+  },
+  "type": "module"
+}
