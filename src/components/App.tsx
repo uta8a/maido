@@ -5,6 +5,6 @@ const AppPage = (): JSX.Element => {
     <>
       <h1>hello</h1>
     </>
-  )
-}
-export {AppPage}
+  );
+};
+export { AppPage };
