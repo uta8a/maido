@@ -23,7 +23,8 @@ const makeArticleToc = async (
   md.use(markdownItTableOfContents);
   const domParser = new DOMParser();
   const [meta, content] = await getArticle(articlePath);
-  const articleHtml = md.render(content + '${toc}');
+  // not trailing newline, `aaaa${toc}` is rendered to `<p>aaa${toc}</p>` , so newline is needed.
+  const articleHtml = md.render(content + '\n${toc}');
   const document = domParser.parseFromString(articleHtml, 'text/html');
   document.querySelectorAll('img').forEach((image_path) => {
     image_path.src = path.join(
