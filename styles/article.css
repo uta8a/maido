@@ -57,6 +57,30 @@
   font-size: 1.5em;
 }
 
+.maido-content h3 {
+  font-size: 1.3em;
+}
+
+.maido-content h4 {
+  font-size: 1.2em;
+}
+
+.maido-content h5 {
+  font-size: 1.1em;
+}
+
+.maido-content h6 {
+  font-size: 1em;
+}
+
+.maido-content h3,
+.maido-content h4,
+.maido-content h5,
+.maido-content h6 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
 .maido-content .header-anchor {
   color: var(--maido-anchor-color);
   text-decoration: underline;
@@ -76,7 +100,9 @@
 .maido-content a:hover {
   text-decoration: underline;
 }
-.maido-content p + p {
+.maido-content p + p,
+.maido-content p + ul,
+.maido-content ul + p {
   margin-top: 1.5em;
 }
 .maido-content h1 + p,
