@@ -1,10 +1,11 @@
 {
-  "name": "hicoder-2021",
+  "name": "maido",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "precommit": "lint-staged",
     "dev": "next-remote-watch $DOCUMENT_ROOT",
+    "site": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint '__tests__/{**/,**/**/}*.ts{,x}' 'pages/{**/,**/**/}*.ts{,x}' 'utils/{**/,**/**/}*.ts{,x}'",

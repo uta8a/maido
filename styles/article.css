@@ -30,6 +30,10 @@
   counter-increment: item;
 }
 
+.maido-list a {
+  color: rgb(0, 144, 201);
+}
+
 .maido-toc ol,
 .maido-toc ul {
   list-style: '#';
