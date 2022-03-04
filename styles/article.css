@@ -140,3 +140,11 @@
   overflow-wrap: break-word;
   line-height: 1.6;
 }
+
+.maido-content blockquote {
+  background: #f9f9f9;
+  border-left: 5px solid #ccc;
+  margin: 1.5em 5px;
+  padding: 1em 10px 0.1em 10px;
+  quotes: '\201C''\201D''\2018''\2019';
+}
