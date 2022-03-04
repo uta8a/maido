@@ -28,7 +28,9 @@
           "typescript",
           "vim",
           "yaml",
-          "rust"
+          "rust",
+          "c",
+          "cpp"
         ],
         "plugins": [],
         "theme": "solarizedlight",
