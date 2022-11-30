@@ -149,3 +149,15 @@
   quotes: '\201C''\201D''\2018''\2019';
   color: rgb(138, 138, 138);
 }
+
+.maido-content table {
+  border-collapse: collapse;
+  border: solid 2px black;
+}
+.maido-content table th,
+td {
+  border: solid 1px black;
+}
+.maido-content table tr:nth-child(2n) {
+  background-color: #ddd;
+}
