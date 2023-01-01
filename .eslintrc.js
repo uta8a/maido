@@ -16,7 +16,7 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 12,
+    ecmaVersion: 2,
     sourceType: 'module',
   },
   plugins: ['react', '@typescript-eslint'],
@@ -25,6 +25,7 @@ module.exports = {
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
+    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_\\w*$' }],
   },
   settings: {
     react: {
