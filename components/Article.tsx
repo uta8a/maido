@@ -110,7 +110,7 @@ const Article: NextPage<ArticleProps> = (props: ArticleProps) => {
               <div className="w-full text-center pt-5">
                 <h1 className="text-3xl underline">
                   <Link href="/">
-                    <a>{props.projectTitle}</a>
+                    {props.projectTitle}
                   </Link>
                 </h1>
               </div>
