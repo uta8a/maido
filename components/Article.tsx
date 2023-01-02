@@ -7,6 +7,7 @@ import { ArticleToc } from '@/components/ArticleToc';
 import { ArticleContent } from '@/components/ArticleContent';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import Link from 'next/link';
+import Image from 'next/image';
 import Prism from 'prismjs';
 
 const defaultLayout: ArticleLayout = {
@@ -17,11 +18,11 @@ const defaultLayout: ArticleLayout = {
 };
 
 const Right = (): JSX.Element => {
-  return <img src="/right-arrow.svg" alt="toggle" width={30} height={30} />;
+  return <Image src="/right-arrow.svg" alt="toggle" width={30} height={30} />;
 };
 
 const Left = (): JSX.Element => {
-  return <img src="/left-arrow.svg" alt="toggle" width={30} height={30} />;
+  return <Image src="/left-arrow.svg" alt="toggle" width={30} height={30} />;
 };
 
 const Article: NextPage<ArticleProps> = (props: ArticleProps) => {
@@ -109,7 +110,7 @@ const Article: NextPage<ArticleProps> = (props: ArticleProps) => {
               <div className="w-full text-center pt-5">
                 <h1 className="text-3xl underline">
                   <Link href="/">
-                    <a>{props.projectTitle}</a>
+                    {props.projectTitle}
                   </Link>
                 </h1>
               </div>

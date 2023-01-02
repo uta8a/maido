@@ -24,10 +24,8 @@ const Home: NextPage<Props> = (props: Props) => {
       <main>
         {/* Header */}
         <div className="mx-auto max-w-7xl py-10 px-10 grid place-items-center">
-          <Link href="/">
-            <a className="inline-block font-thin text-3xl text-center m-0 whitespace-no-wrap overflow-hidden">
-              {props.projectTitle}
-            </a>
+          <Link href="/" className="inline-block font-thin text-3xl text-center m-0 whitespace-no-wrap overflow-hidden">
+            {props.projectTitle}
           </Link>
         </div>
         {/* ContentWrapper */}
